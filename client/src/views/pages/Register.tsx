@@ -1,8 +1,12 @@
+import axios from "axios";
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { AppDispatch } from "../../_store/store";
+import { registerUser } from "../../_store/_slice/userSlice";
 
-interface RegisterForm {
+export interface RegisterForm {
   username: string;
   email: string;
   password: string;
@@ -10,17 +14,26 @@ interface RegisterForm {
 }
 
 const Register = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
   const {
     register,
     handleSubmit,
     formState: { errors },
     setError,
   } = useForm<RegisterForm>();
-  const onValid = (data: RegisterForm) => {
+  const onValid = async (data: RegisterForm) => {
     if (data.password !== data.confirmPassword) {
       setError("confirmPassword", {
         message: "Password are not the same",
       });
+    }
+
+    const response = await dispatch(registerUser(data));
+    if (response.payload.success) {
+      navigate("/");
+    } else {
+      alert("Failed to sign up!");
     }
   };
 

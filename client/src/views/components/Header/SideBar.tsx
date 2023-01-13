@@ -1,0 +1,101 @@
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { Category } from "../../../assets/data/variable";
+import LeftMenu from "./LeftMenu";
+import { AiOutlineHome, AiOutlineLike } from "react-icons/ai";
+import { MdSubscriptions, MdSupervisedUserCircle } from "react-icons/md";
+import { RiVideoLine } from "react-icons/ri";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../_store/store";
+
+const SideBar = () => {
+  const isOpen = useSelector((state: RootState) => state.sidebar.value);
+  return (
+    <aside
+      className={`w-64 absolute top-0 left-0 z-30 transition-all ease-in-out duration-300 ${
+        !isOpen ? "-translate-x-full" : "translate-x-0 block"
+      }`}
+    >
+      <div className="px-4 py-4 overflow-y-auto rounded bg-[#0F0F0F] min-h-screen space-y-3">
+        <LeftMenu />
+        <ul className="mt-3">
+          <li>
+            <Link
+              to="/"
+              className="flex items-center py-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-[#272727] dark:hover:bg-[#272727]"
+            >
+              <AiOutlineHome className="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:group-hover:text-white dark:text-gray-400" />
+              <span className="ml-3">홈</span>
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/subscription"
+              className="flex items-center py-2 text-base font-normal text-gray-900 rounded-lg dark:text-white hover:bg-[#272727] dark:hover:bg-[#272727]"
+            >
+              <MdSubscriptions className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+              <span className="flex-1 ml-3 whitespace-nowrap">구독</span>
+            </Link>
+          </li>
+        </ul>
+        <ul className="pt-4 mt-4 space-y-2 border-t border-gray-400 dark:border-gray-700">
+          <li>
+            <Link
+              to="/user/profile"
+              className="flex items-center py-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg hover:bg-[#272727] dark:hover:bg-[#272727] dark:text-white group"
+            >
+              <RiVideoLine className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+              <span className="ml-4">내 동영상</span>
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="#"
+              className="flex items-center py-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg hover:bg-[#272727] dark:hover:bg-[#272727] dark:text-white group"
+            >
+              <AiOutlineLike className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+              <span className="ml-3">좋아요 표시한 동영상</span>
+            </Link>
+          </li>
+        </ul>
+        <ul className="pt-4 mt-4 space-y-2 border-t border-gray-400 dark:border-gray-700">
+          <h3 className="px-2 text-white font-thin">구독</h3>
+          <li>
+            <Link
+              to="#"
+              className="flex items-center py-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg hover:bg-[#272727] dark:hover:bg-[#272727] dark:text-white group"
+            >
+              <MdSupervisedUserCircle className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+              <span className="ml-3">Channel 1</span>
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="#"
+              className="flex items-center py-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg hover:bg-[#272727] dark:hover:bg-[#272727] dark:text-white group"
+            >
+              <MdSupervisedUserCircle className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+              <span className="ml-3">Channel 2</span>
+            </Link>
+          </li>
+        </ul>
+        <ul className="pt-4 mt-4 space-y-2 border-t border-gray-400 dark:border-gray-700">
+          <h3 className="px-2 text-white font-thin">탐색</h3>
+          {Category.map((categoryItem, i) => (
+            <li key={i}>
+              <Link
+                to="#"
+                className="flex items-center py-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg hover:bg-[#272727] dark:hover:bg-[#272727] dark:text-white group"
+              >
+                <RiVideoLine className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
+                <span className="ml-3">{categoryItem.label}</span>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </aside>
+  );
+};
+
+export default SideBar;

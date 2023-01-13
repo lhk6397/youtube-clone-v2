@@ -1,19 +1,33 @@
+import axios from "axios";
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import { AppDispatch } from "../../_store/store";
+import { loginUser } from "../../_store/_slice/userSlice";
 
-interface LoginForm {
+export interface LoginForm {
   email: string;
   password: string;
 }
 
 const Login = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginForm>();
-  const onValid = (data: LoginForm) => {};
+  const onValid = async (data: LoginForm) => {
+    const response = await dispatch(loginUser(data));
+    if (response.payload.loginSuccess) {
+      // window.localStorage.setItem("userId", response.payload.userId);
+      navigate("/");
+    } else {
+      alert("Register Error!");
+    }
+  };
 
   return (
     <div className="mt-16 px-4">

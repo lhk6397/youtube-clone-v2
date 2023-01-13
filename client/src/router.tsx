@@ -1,4 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
+import Auth from "./hoc/authHoc";
 import Root from "./Root";
 import {
   Home,
@@ -8,7 +9,12 @@ import {
   UploadVideo,
   NotFound,
   Profile,
+  Subscription,
 } from "./views/pages/index";
+
+const AuthHome = Auth(Home, null);
+const AuthLogin = Auth(Login, false);
+const AuthRegister = Auth(Register, false);
 
 const router = createBrowserRouter([
   {
@@ -17,15 +23,15 @@ const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <Home />,
+        element: <AuthHome />,
       },
       {
         path: "/login",
-        element: <Login />,
+        element: <AuthLogin />,
       },
       {
         path: "/register",
-        element: <Register />,
+        element: <AuthRegister />,
       },
       {
         path: "/video",
@@ -43,6 +49,10 @@ const router = createBrowserRouter([
       {
         path: "/user/profile",
         element: <Profile />,
+      },
+      {
+        path: "/subscription",
+        element: <Subscription />,
       },
     ],
     errorElement: <NotFound />,

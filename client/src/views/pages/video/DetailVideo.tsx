@@ -1,10 +1,16 @@
-import React from "react";
+import { spawn } from "child_process";
+import React, { useState } from "react";
+import { cls } from "../../../libs/utils";
 import Comment from "../../components/Comment";
 import DetailVideoCard from "../../components/DetailVideoCard";
 import LikeDislikes from "../../components/LikeDislikes";
 import Subscriber from "../../components/Subscriber";
 
+const sudoText: string =
+  "My money&apos;s in that office, right? If she start giving me some bullshit about it ain&apos;t there, and we got to go someplace else and get it, I&apos;m gonna shoot you in the head then and there. Then I&apos;m gonna shoot that bitch in the kneecaps, find out where mygoddamn money is. She gonna tell me too. Hey, look at me when I&apos;m talking to you, motherfucker. You listen: we go in there, and that ni**a Winston or anybody else is in there, you the first mother fucker to get shot. You understand";
+
 const DetailVideo = () => {
+  const [isPOpen, setIsPOpen] = useState(false);
   return (
     <div className="py-10 px-4 space-y-4">
       <div className="w-full rounded-md shadow-sm bg-slate-300 aspect-video" />
@@ -23,15 +29,33 @@ const DetailVideo = () => {
             <Subscriber />
           </div>
         </div>
-        <p className="my-6 bg-[#272727] px-3 py-4 h-28 overflow-clip rounded-2xl">
-          My money&apos;s in that office, right? If she start giving me some
-          bullshit about it ain&apos;t there, and we got to go someplace else
-          and get it, I&apos;m gonna shoot you in the head then and there. Then
-          I&apos;m gonna shoot that bitch in the kneecaps, find out where my
-          goddamn money is. She gonna tell me too. Hey, look at me when I&apos;m
-          talking to you, motherfucker. You listen: we go in there, and that
-          ni**a Winston or anybody else is in there, you the first motherfucker
-          to get shot. You understand?
+        <p
+          className={cls(
+            "my-6 bg-[#272727] px-3 py-4 rounded-2xl",
+            !isPOpen ? "h-28" : ""
+          )}
+        >
+          {isPOpen ? (
+            <div>
+              <p>{sudoText}</p>
+              <span
+                className="cursor-pointer"
+                onClick={() => setIsPOpen((curr) => !curr)}
+              >
+                간략히
+              </span>
+            </div>
+          ) : (
+            <div className="space-x-2">
+              <span>{sudoText.substring(0, 150) + "..."}</span>
+              <span
+                className="cursor-pointer"
+                onClick={() => setIsPOpen((curr) => !curr)}
+              >
+                더 보기
+              </span>
+            </div>
+          )}
         </p>
       </div>
       <div>

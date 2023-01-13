@@ -8,7 +8,7 @@ interface DetailVideoCardProps {
 
 const DetailVideoCard = ({ videoWidth }: DetailVideoCardProps) => {
   return (
-    <Link to="/video/1">
+    <Link to="/video/2">
       <div className="w-full mt-2 cursor-pointer transition-all flex space-x-2 hover:scale-105 hover:border hover:rounded-md">
         <div className="relative overflow-hidden">
           <div
