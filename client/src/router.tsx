@@ -15,6 +15,9 @@ import {
 const AuthHome = Auth(Home, null);
 const AuthLogin = Auth(Login, false);
 const AuthRegister = Auth(Register, false);
+const AuthUploadVideo = Auth(UploadVideo, true);
+const AuthDetailVideo = Auth(DetailVideo, null);
+const AuthSubscription = Auth(Subscription, null);
 
 const router = createBrowserRouter([
   {
@@ -38,11 +41,11 @@ const router = createBrowserRouter([
         children: [
           {
             path: "upload",
-            element: <UploadVideo />,
+            element: <AuthUploadVideo />,
           },
           {
             path: ":videoId",
-            element: <DetailVideo />,
+            element: <AuthDetailVideo />,
           },
         ],
       },
@@ -52,7 +55,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/subscription",
-        element: <Subscription />,
+        element: <AuthSubscription />,
       },
     ],
     errorElement: <NotFound />,

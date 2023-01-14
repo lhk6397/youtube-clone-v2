@@ -8,45 +8,42 @@ export interface VideoDocument extends Document {
   privacy: string;
   filePath: string;
   category: string;
-  views: number;
   duration: string;
   thumbnail: string;
+  createdAt: number;
   __v?: number;
 }
 
-const videoSchema = new Schema<VideoDocument>(
-  {
-    writer: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-    },
-    title: {
-      type: String,
-      maxlength: 50,
-    },
-    description: {
-      type: String,
-    },
-    privacy: {
-      type: String,
-    },
-    filePath: {
-      type: String,
-    },
-    category: String,
-    views: {
-      type: Number,
-      default: 0,
-    },
-    duration: {
-      type: String,
-    },
-    thumbnail: {
-      type: String,
-    },
+const videoSchema = new Schema<VideoDocument>({
+  writer: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
   },
-  { timestamps: true }
-);
+  title: {
+    type: String,
+    maxlength: 50,
+  },
+  description: {
+    type: String,
+  },
+  privacy: {
+    type: String,
+  },
+  filePath: {
+    type: String,
+  },
+  category: String,
+  duration: {
+    type: String,
+  },
+  thumbnail: {
+    type: String,
+  },
+  createdAt: {
+    type: Number,
+    default: () => Date.now(),
+  },
+});
 
 const Video = model<VideoDocument>("Video", videoSchema);
 export default Video;

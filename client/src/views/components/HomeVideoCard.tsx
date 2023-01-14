@@ -1,12 +1,45 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { cls, getTimegap } from "../../libs/utils";
 import { IVideo } from "../pages/Home";
 
-const HomeVideoCard = ({ video }: { video: IVideo }) => {
+interface HomeVideoCardProps {
+  videoWidth: "sm" | "lg";
+  video: IVideo;
+}
+
+const HomeVideoCard = ({ video, videoWidth }: HomeVideoCardProps) => {
   const minutes = Math.floor(video.duration / 60);
   const seconds = Math.floor(video.duration - minutes * 60);
+  const [views, setViews] = useState(0);
+  useEffect(() => {
+    const videoId = video._id;
+    const getViews = async () => {
+      const res = await axios.post(
+        "http://localhost:5000/api/view/getViews",
+        { videoId },
+        {
+          withCredentials: true,
+        }
+      );
+      if (res.data.success) {
+        setViews(res.data.views.length);
+      } else {
+        alert("Failed to update view count");
+      }
+    };
+    getViews();
+  }, []);
+
+  const timegap = getTimegap(video.createdAt);
   return (
-    <div className="mt-10 mx-20 cursor-pointer group transition-all hover:rounded-sm hover:scale-105 hover:shadow-md hover:shadow-slate-700 hover:bg-[#272727]">
+    <div
+      className={cls(
+        "mt-10  cursor-pointer group transition-all hover:rounded-sm hover:scale-105 hover:shadow-md hover:shadow-slate-700 hover:bg-[#272727]",
+        videoWidth === "lg" ? "mx-20" : "mx-5"
+      )}
+    >
       <Link to={`/video/${video._id}`}>
         <div className="relative">
           <img
@@ -33,9 +66,9 @@ const HomeVideoCard = ({ video }: { video: IVideo }) => {
             </span>
             <div className="flex space-x-1">
               <span className="text-xs text-gray-400">
-                {"조회수 " + video.views + "회 - "}
+                {views > 0 ? `조회수 ${views}회 - ` : "조회수 없음 - "}
               </span>
-              <span className="text-xs text-gray-400">1시간 전</span>
+              <span className="text-xs text-gray-400">{timegap}</span>
             </div>
           </div>
         </div>

@@ -7,6 +7,8 @@ import flash from "connect-flash";
 import MongoStore from "connect-mongo";
 import userRouter from "./routes/user.routes";
 import videoRouter from "./routes/video.routes";
+import viewRouter from "./routes/view.routes";
+import subscribeRouter from "./routes/subscribe.routes";
 
 const app: Express = express();
 
@@ -44,6 +46,8 @@ app.use(
 
 app.use("/api/user", userRouter);
 app.use("/api/video", videoRouter);
+app.use("/api/view", viewRouter);
+app.use("/api/subscribe", subscribeRouter);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello world!");

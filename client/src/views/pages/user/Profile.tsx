@@ -14,9 +14,7 @@ const Profile = () => {
       </div>
       <h1 className="text-2xl font-extralight">My Video</h1>
       {[1, 1, 1, 1].map((_, i) => (
-        <div key={i}>
-          <DetailVideoCard videoWidth={"lg"} />
-        </div>
+        <div key={i}>{/* <DetailVideoCard videoWidth={"lg"} /> */}</div>
       ))}
     </div>
   );

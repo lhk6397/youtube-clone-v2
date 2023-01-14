@@ -1,24 +1,53 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { cls } from "../../libs/utils";
+import { cls, getTimegap } from "../../libs/utils";
+import { IVideo } from "../pages/Home";
 
 interface DetailVideoCardProps {
   videoWidth: "sm" | "lg";
+  video: IVideo;
 }
 
-const DetailVideoCard = ({ videoWidth }: DetailVideoCardProps) => {
+const DetailVideoCard = ({ videoWidth, video }: DetailVideoCardProps) => {
+  const minutes = Math.floor(video.duration / 60);
+  const seconds = Math.floor(video.duration - minutes * 60);
+  const timegap = getTimegap(video.createdAt);
+  const [views, setViews] = useState(0);
+
+  useEffect(() => {
+    const videoId = video._id;
+    const getViews = async () => {
+      const res = await axios.post(
+        "http://localhost:5000/api/view/getViews",
+        { videoId },
+        {
+          withCredentials: true,
+        }
+      );
+      if (res.data.success) {
+        setViews(res.data.views.length);
+      } else {
+        alert("Failed to update view count");
+      }
+    };
+    getViews();
+  }, [video]);
+
   return (
-    <Link to="/video/2">
+    <Link to={`/video/${video._id}`}>
       <div className="w-full mt-2 cursor-pointer transition-all flex space-x-2 hover:scale-105 hover:border hover:rounded-md">
         <div className="relative overflow-hidden">
-          <div
+          <img
+            src={`http://localhost:5000/${video.thumbnail}`}
+            alt="thumbnail"
             className={cls(
               "rounded-md shadow-sm bg-slate-300 aspect-video",
               videoWidth === "sm" ? "w-40" : "w-56"
             )}
           />
           <span className="absolute bottom-0.5 right-1 px-1 bg-black text-white text-xs">
-            0:00
+            {minutes} : {seconds}
           </span>
         </div>
         <div className="flex flex-col space-y-1">
@@ -28,12 +57,14 @@ const DetailVideoCard = ({ videoWidth }: DetailVideoCardProps) => {
               videoWidth === "sm" ? "text-sm" : "text-base"
             )}
           >
-            테스트용 제목입니다
+            {video.title}
           </h3>
-          <span className="text-xs text-gray-400">Black</span>
+          <span className="text-xs text-gray-400">{video.writer.username}</span>
           <div className="flex space-x-1">
-            <span className="text-xs text-gray-400">조회수 0회 - </span>
-            <span className="text-xs text-gray-400">1시간 전</span>
+            <span className="text-xs text-gray-400">
+              {views > 0 ? `조회수 ${views}회 - ` : "조회수 없음 - "}
+            </span>
+            <span className="text-xs text-gray-400">{timegap}</span>
           </div>
         </div>
       </div>

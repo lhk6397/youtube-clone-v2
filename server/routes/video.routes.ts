@@ -5,6 +5,7 @@ import {
   uploadVideo,
   getVideos,
   getVideo,
+  getSubscriptionVideos,
 } from "../controller/video.controller";
 import upload from "../middleware/multer";
 
@@ -19,5 +20,7 @@ router.post("/uploadVideo", uploadVideo);
 router.get("/getVideos", getVideos);
 
 router.post("/getVideo", getVideo);
+
+router.post("/getSubscriptionVideos", getSubscriptionVideos);
 
 export default router;

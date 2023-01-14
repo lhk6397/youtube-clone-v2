@@ -1,11 +1,10 @@
 import express, { Request, Response } from "express";
-import multer, { FileFilterCallback } from "multer";
 import ffmpeg from "fluent-ffmpeg";
 import Video from "../models/Video";
-import e from "connect-flash";
+import Subscriber from "../models/Subscriber";
+import { Types } from "mongoose";
 
 export const uploadFiles = (req: Request, res: Response): Response | void => {
-  console.log(req.file);
   if (req.file) {
     return res.json({
       success: true,
@@ -83,25 +82,24 @@ export const getVideo = async (
   }
 };
 
-// router.post("/getSubscriptionVideos", (req, res) => {
-//   //Need to find all of the Users that I am subscribing to From Subscriber Collection
-//   Subscriber.find({ userFrom: req.body.userFrom }).exec((err, subscribers) => {
-//     if (err) return res.status(400).send(err);
+export const getSubscriptionVideos = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  try {
+    //Need to find all of the Users that I am subscribing to From Subscriber Collection
+    const subscribers = await Subscriber.find({ userFrom: req.body.userFrom });
+    let subscribedUser: Types.ObjectId[] = [];
+    subscribers.map((subscriber, i) => {
+      subscribedUser.push(subscriber.userTo);
+    });
 
-//     let subscribedUser = [];
-
-//     subscribers.map((subscriber, i) => {
-//       subscribedUser.push(subscriber.userTo);
-//     });
-
-//     //Need to Fetch all of the Videos that belong to the Users that I found in previous step.
-//     Video.find({ writer: { $in: subscribedUser } })
-//       .populate("writer")
-//       .exec((err, videos) => {
-//         if (err) return res.status(400).send(err);
-//         res.status(200).json({ success: true, videos });
-//       });
-//   });
-// });
-
-// module.exports = router;
+    //Need to Fetch all of the Videos that belong to the Users that I found in previous step.
+    const videos = await Video.find({
+      writer: { $in: subscribedUser },
+    }).populate("writer");
+    return res.status(200).json({ success: true, videos });
+  } catch (err) {
+    return res.status(400).send(err);
+  }
+};

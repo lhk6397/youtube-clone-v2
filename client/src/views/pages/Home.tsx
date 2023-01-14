@@ -20,11 +20,10 @@ export interface IVideo {
   privacy: string;
   filePath: string;
   category: string;
-  views: number;
   duration: number;
   thumbnail: string;
-  createdAt: any;
-  updatedAt: any;
+  createdAt: number;
+  updatedAt?: any;
   __v?: number;
 }
 
@@ -37,7 +36,6 @@ const Home = () => {
         "http://localhost:5000/api/video/getVideos"
       );
       if (response.data.success) {
-        console.log(response.data);
         setVideos(response.data.videos);
       } else {
         alert("Failed to get Videos");
@@ -49,7 +47,7 @@ const Home = () => {
     <div className="space-y-4">
       {videos.map((video, i) => (
         <div key={i}>
-          <HomeVideoCard video={video} />
+          <HomeVideoCard videoWidth="lg" video={video} />
         </div>
       ))}
     </div>
