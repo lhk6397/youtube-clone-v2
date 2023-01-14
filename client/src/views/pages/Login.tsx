@@ -1,8 +1,6 @@
-import axios from "axios";
-import React from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { AppDispatch } from "../../_store/store";
 import { loginUser } from "../../_store/_slice/userSlice";
 
@@ -22,7 +20,7 @@ const Login = () => {
   const onValid = async (data: LoginForm) => {
     const response = await dispatch(loginUser(data));
     if (response.payload.loginSuccess) {
-      // window.localStorage.setItem("userId", response.payload.userId);
+      window.localStorage.setItem("userId", response.payload.userId);
       navigate("/");
     } else {
       alert("Register Error!");

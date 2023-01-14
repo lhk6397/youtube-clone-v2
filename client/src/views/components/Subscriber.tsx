@@ -11,11 +11,6 @@ const Subscriber = ({ userTo, userFrom }: SubscriberProps) => {
   const [subscribeNumber, setSubscribeNumber] = useState(0);
   const [subscribed, setSubscribed] = useState(false);
 
-  const subscribeNumberVariables = {
-    userTo,
-    userFrom,
-  };
-
   const onSubscribe = async () => {
     const subscribeVariable = {
       userTo,
@@ -51,7 +46,12 @@ const Subscriber = ({ userTo, userFrom }: SubscriberProps) => {
   };
 
   useEffect(() => {
-    const getSubscribeNumver = async () => {
+    const subscribeNumberVariables = {
+      userTo,
+      userFrom,
+    };
+
+    const getSubscribeNumber = async () => {
       const res = await axios.post(
         "http://localhost:5000/api/subscribe/subscribeNumber",
         subscribeNumberVariables,
@@ -77,9 +77,9 @@ const Subscriber = ({ userTo, userFrom }: SubscriberProps) => {
       }
     };
 
-    getSubscribeNumver();
+    getSubscribeNumber();
     getSubscribedInfo();
-  }, [userTo]);
+  }, [userTo, userFrom]);
 
   return (
     <div

@@ -29,6 +29,7 @@ const Header = () => {
       withCredentials: true,
     });
     if (response.data.success) {
+      localStorage.removeItem("userId");
       navigate("/login");
     } else {
       alert("Logout Error!");
@@ -104,7 +105,7 @@ const Header = () => {
                   <ul aria-labelledby="dropdownMenuButton1">
                     <li>
                       <Link
-                        to="/user/profile"
+                        to={`/user/${user.userData._id}`}
                         className="text-sm py-2 px-4 font-normal whitespace-nowrap bg-transparent text-white hover:bg-[#3E3E3E] flex items-center space-x-4"
                       >
                         <BiUserPin className="flex-shrink-0 w-6 h-6" />

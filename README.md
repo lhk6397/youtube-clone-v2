@@ -20,7 +20,7 @@
     <li>Video Update []</li>
     <li>Subscribe [✔]</li>
     <li>View Count Update [✔]</li>
-    <li>Viewing Record []</li>
+    <li>View History [✔]</li>
     <li>Like/Dislike []</li>
     <li>Comment []</li>
     <li>Search Video</li>
@@ -28,5 +28,4 @@
     <li>Categorize</li>
     <li>Infinite Scroll</li>
     <li>Custom Video</li>
-    <li>Video Upload</li>
 </ul>

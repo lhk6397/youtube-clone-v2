@@ -1,8 +1,10 @@
-import express, { Request, Response } from "express";
+import { ViewDocument } from "./../models/View";
+import { Request, Response } from "express";
 import ffmpeg from "fluent-ffmpeg";
 import Video from "../models/Video";
 import Subscriber from "../models/Subscriber";
 import { Types } from "mongoose";
+import View from "../models/View";
 
 export const uploadFiles = (req: Request, res: Response): Response | void => {
   if (req.file) {
@@ -98,6 +100,53 @@ export const getSubscriptionVideos = async (
     const videos = await Video.find({
       writer: { $in: subscribedUser },
     }).populate("writer");
+    return res.status(200).json({ success: true, videos });
+  } catch (err) {
+    return res.status(400).send(err);
+  }
+};
+
+export const getUserVideos = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  try {
+    //Need to find all of the Users that I am subscribing to From Subscriber Collection
+    const videos = await Video.find({ writer: req.body.userId }).populate(
+      "writer"
+    );
+    return res.status(200).json({ success: true, videos });
+  } catch (err) {
+    return res.status(400).send(err);
+  }
+};
+
+export const getWatchedVideos = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  try {
+    let uniqueViews: any[] = [];
+    await View.aggregate(
+      [
+        {
+          $group: { _id: "$userId", watchedVideos: { $addToSet: "$videoId" } },
+        },
+      ],
+      function (rr, ra: any[]) {
+        if (ra) {
+          for (let i = 0; i < ra.length; i++) {
+            if (ra[i]._id == req.body.userId) {
+              uniqueViews = ra[i].watchedVideos;
+            }
+          }
+        }
+      }
+    );
+    const videos = await Video.find({
+      _id: { $in: uniqueViews },
+    }).populate("writer");
+
     return res.status(200).json({ success: true, videos });
   } catch (err) {
     return res.status(400).send(err);

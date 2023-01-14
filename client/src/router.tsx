@@ -1,23 +1,16 @@
 import { createBrowserRouter } from "react-router-dom";
-import Auth from "./hoc/authHoc";
 import Root from "./Root";
 import {
-  Home,
-  Login,
-  Register,
-  DetailVideo,
-  UploadVideo,
+  AuthHome,
+  AuthLogin,
+  AuthRegister,
+  AuthDetailVideo,
+  AuthUploadVideo,
   NotFound,
-  Profile,
-  Subscription,
+  AuthProfile,
+  AuthSubscription,
+  AuthHistory,
 } from "./views/pages/index";
-
-const AuthHome = Auth(Home, null);
-const AuthLogin = Auth(Login, false);
-const AuthRegister = Auth(Register, false);
-const AuthUploadVideo = Auth(UploadVideo, true);
-const AuthDetailVideo = Auth(DetailVideo, null);
-const AuthSubscription = Auth(Subscription, null);
 
 const router = createBrowserRouter([
   {
@@ -50,8 +43,17 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: "/user/profile",
-        element: <Profile />,
+        path: "/user",
+        children: [
+          {
+            path: "history",
+            element: <AuthHistory />,
+          },
+          {
+            path: ":userId",
+            element: <AuthProfile />,
+          },
+        ],
       },
       {
         path: "/subscription",

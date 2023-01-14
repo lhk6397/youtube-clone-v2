@@ -21,7 +21,7 @@ const DetailVideo = () => {
   const userId = user?.userData?._id;
 
   useEffect(() => {
-    const getViewsNum = async () => {
+    const updateViews = async () => {
       const viewRes = await axios.post(
         "http://localhost:5000/api/view/updateView",
         { videoId, userId },
@@ -58,10 +58,10 @@ const DetailVideo = () => {
       }
     };
 
-    getViewsNum();
+    updateViews();
     getVideo();
     getRecommendedVideos();
-  }, [videoId]);
+  }, [videoId, userId]);
 
   return (
     <>

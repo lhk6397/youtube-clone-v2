@@ -1,20 +1,77 @@
-import React from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import DetailVideoCard from "../../components/DetailVideoCard";
+import { IUser, IVideo } from "../Home";
 
 const Profile = () => {
+  const { userId } = useParams();
+  const [user, setUser] = useState<IUser>({} as IUser);
+  const [videos, setVideos] = useState<IVideo[]>([]);
+  const [subscribeNumber, setSubscribeNumber] = useState(0);
+  useEffect(() => {
+    const getUserProfile = async () => {
+      const res = await axios.post(
+        "http://localhost:5000/api/user/getUserProfile",
+        { userId },
+        { withCredentials: true }
+      );
+      if (res.data.success) {
+        setUser(res.data.user);
+      } else {
+        alert("Failed to get User Profile");
+      }
+    };
+    const getUserVideos = async () => {
+      const response = await axios.post(
+        "http://localhost:5000/api/video/getUserVideos",
+        { userId }
+      );
+      if (response.data.success) {
+        setVideos(response.data.videos);
+      } else {
+        alert("Failed to get subscription videos");
+      }
+    };
+
+    const getSubscribeNumber = async () => {
+      const res = await axios.post(
+        "http://localhost:5000/api/subscribe/subscribeNumber",
+        { userTo: userId },
+        { withCredentials: true }
+      );
+      if (res.data.success) {
+        setSubscribeNumber(res.data.subscribeNumber);
+      } else {
+        alert("Failed to get subscriber number");
+      }
+    };
+
+    getUserProfile();
+    getUserVideos();
+    getSubscribeNumber();
+  }, [userId]);
   return (
     <div className="px-6 py-4 space-y-5">
       <div className="flex space-x-6">
-        <div className="w-20 aspect-square bg-gray-400 rounded-full" />
+        <img
+          className="w-20 aspect-square bg-gray-400 rounded-full"
+          src={user.avatarUrl}
+          alt="avatar"
+        />
         <div className="flex flex-col space-y-1">
-          <h3 className="text-xl mb-0.5 font-medium text-white ">Username</h3>
-          <span className="text-xs text-gray-400">@유저아이디</span>
-          <span className="text-xs text-gray-400">구독자 0명</span>
+          <h3 className="text-xl mb-0.5 font-medium text-white ">
+            {user.username}
+          </h3>
+          <span className="text-xs text-gray-400">@{user._id}</span>
+          <span className="text-xs text-gray-400">{`구독자 ${subscribeNumber}명`}</span>
         </div>
       </div>
       <h1 className="text-2xl font-extralight">My Video</h1>
-      {[1, 1, 1, 1].map((_, i) => (
-        <div key={i}>{/* <DetailVideoCard videoWidth={"lg"} /> */}</div>
+      {videos.map((video, i) => (
+        <div key={i}>
+          <DetailVideoCard videoWidth={"lg"} video={video} />{" "}
+        </div>
       ))}
     </div>
   );

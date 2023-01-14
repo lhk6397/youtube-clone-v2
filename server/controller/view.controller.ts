@@ -20,8 +20,8 @@ export const updateView = async (
   try {
     const view = new View(req.body);
     await view.save();
+    const views = await View.find({ videoId: req.body.videoId });
 
-    const views = await View.find(req.body);
     return res.status(200).json({ success: true, views });
   } catch (err) {
     return res.status(400).send(err);

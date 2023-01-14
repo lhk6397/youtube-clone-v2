@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { Category } from "../../../assets/data/variable";
 import LeftMenu from "./LeftMenu";
 import { AiOutlineHome, AiOutlineLike } from "react-icons/ai";
-import { MdSubscriptions, MdSupervisedUserCircle } from "react-icons/md";
+import { MdSubscriptions } from "react-icons/md";
 import { RiVideoLine } from "react-icons/ri";
 import { RxCounterClockwiseClock } from "react-icons/rx";
 import { useSelector } from "react-redux";
@@ -13,14 +13,9 @@ import { IUser } from "../../pages/Home";
 
 const SideBar = () => {
   const isOpen = useSelector((state: RootState) => state.sidebar.value);
-  const user = useSelector((state: RootState) => state.user);
   const [subscribedUsers, setSubscribedUsers] = useState<IUser[]>([]);
 
-  let userId = "";
-  if (user.userData) {
-    userId = user.userData._id;
-  }
-
+  const userId = localStorage.getItem("userId");
   useEffect(() => {
     const getSubsribedUser = async () => {
       const res = await axios.post(
@@ -68,7 +63,7 @@ const SideBar = () => {
         <ul className="pt-4 mt-4 space-y-2 border-t border-gray-400 dark:border-gray-700">
           <li>
             <Link
-              to="/user/profile"
+              to={`/user/${userId}`}
               className="flex items-center py-2 text-sm font-normal text-gray-900 transition duration-75 rounded-lg hover:bg-[#272727] dark:hover:bg-[#272727] dark:text-white group"
             >
               <RiVideoLine className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
@@ -86,11 +81,11 @@ const SideBar = () => {
           </li>
           <li>
             <Link
-              to="#"
+              to="/user/history"
               className="flex items-center py-2 text-sm font-normal text-gray-900 transition duration-75 rounded-lg hover:bg-[#272727] dark:hover:bg-[#272727] dark:text-white group"
             >
               <RxCounterClockwiseClock className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
-              <span className="ml-3">시청한 동영상</span>
+              <span className="ml-3">시청 기록</span>
             </Link>
           </li>
         </ul>

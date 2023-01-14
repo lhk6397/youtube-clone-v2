@@ -1,16 +1,16 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import HomeVideoCard from "../components/HomeVideoCard";
 import { IVideo } from "./Home";
 
-const Subscription = () => {
+const History = () => {
   const [videos, setVideos] = useState<IVideo[]>([]);
   const userId = localStorage.getItem("userId");
   useEffect(() => {
-    const getVideos = async () => {
+    const getWatchedVideos = async () => {
       const response = await axios.post(
-        "http://localhost:5000/api/video/getSubscriptionVideos",
-        { userFrom: userId }
+        "http://localhost:5000/api/video/getWatchedVideos",
+        { userId }
       );
       if (response.data.success) {
         setVideos(response.data.videos);
@@ -18,16 +18,16 @@ const Subscription = () => {
         alert("Failed to get subscription videos");
       }
     };
-    getVideos();
+    getWatchedVideos();
   }, [userId]);
 
   return (
     <>
-      <h1 className="text-3xl px-10 mt-5">구독</h1>
-      <div className="grid grid-cols-2">
+      <h1 className="text-3xl px-10 mt-5">시청 기록</h1>
+      <div className="space-y-4">
         {videos.map((video, i) => (
           <div key={i}>
-            <HomeVideoCard videoWidth="sm" video={video} />
+            <HomeVideoCard videoWidth="lg" video={video} />
           </div>
         ))}
       </div>
@@ -35,4 +35,4 @@ const Subscription = () => {
   );
 };
 
-export default Subscription;
+export default History;

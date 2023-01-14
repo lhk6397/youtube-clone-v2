@@ -1,7 +1,15 @@
-import express, { Request, Response } from "express";
+import { Request, Response } from "express";
 import moment from "moment";
 import bcrypt from "bcrypt";
 import User, { UserDocument } from "../models/User";
+import "express-session";
+
+declare module "express-session" {
+  export interface SessionData {
+    loggedInUser: UserDocument;
+    isLoggedIn: boolean;
+  }
+}
 
 export const register = async (
   req: Request,
@@ -68,6 +76,7 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
     // req.flash("success", `반갑습니다, ${req.session.loggedInUser.username}님`);
     return res.status(200).json({
       loginSuccess: true,
+      userId: foundUser._id,
     });
   } catch (error) {
     // req.flash("fail", "로그인에 실패하였습니다.");
@@ -97,4 +106,19 @@ export const logout = (req: Request, res: Response): Response | void => {
   req.session.destroy(() => {
     return res.status(200).json({ success: true });
   });
+};
+
+export const getUserProfile = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  try {
+    const user = await User.findOne({ _id: req.body.userId });
+    return res.status(200).json({
+      success: true,
+      user,
+    });
+  } catch (err) {
+    return res.status(400).send(err);
+  }
 };

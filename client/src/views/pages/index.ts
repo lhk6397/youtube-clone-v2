@@ -6,14 +6,26 @@ import UploadVideo from "./video/UploadVideo";
 import Profile from "./user/Profile";
 import Subscription from "./Subscription";
 import NotFound from "./404";
+import Auth from "../../hoc/authHoc";
+import History from "./History";
+
+const AuthHome = Auth(Home, null);
+const AuthLogin = Auth(Login, false);
+const AuthRegister = Auth(Register, false);
+const AuthUploadVideo = Auth(UploadVideo, true);
+const AuthDetailVideo = Auth(DetailVideo, null);
+const AuthSubscription = Auth(Subscription, null);
+const AuthProfile = Auth(Profile, null);
+const AuthHistory = Auth(History, true);
 
 export {
-  Home,
-  Login,
-  Register,
-  DetailVideo,
-  UploadVideo,
-  Profile,
+  AuthHome,
+  AuthLogin,
+  AuthRegister,
+  AuthDetailVideo,
+  AuthUploadVideo,
+  AuthProfile,
   NotFound,
-  Subscription,
+  AuthSubscription,
+  AuthHistory,
 };
