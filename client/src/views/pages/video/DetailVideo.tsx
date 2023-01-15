@@ -109,7 +109,11 @@ const DetailVideo = () => {
                 </div>
               </div>
               <div className="flex space-x-3">
-                <LikeDislikes />
+                <LikeDislikes
+                  video
+                  videoId={videoId}
+                  userId={localStorage.getItem("userId") ?? ""}
+                />
                 {video.writer._id !== userId && (
                   <Subscriber userTo={video.writer._id} userFrom={userId} />
                 )}

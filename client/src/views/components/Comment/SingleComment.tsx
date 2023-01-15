@@ -92,7 +92,11 @@ const SingleComment = ({ comment, refreshFunc }: SingleCommentProps) => {
               )}
             </div>
             <div className="pt-2 flex space-x-4 items-center">
-              <LikeDislikes />
+              <LikeDislikes
+                comment
+                commentId={comment._id}
+                userId={localStorage.getItem("userId") ?? ""}
+              />
               <button
                 className="text-xs w-12 bg-transparent px-2 py-2 rounded-3xl hover:bg-[#272727]"
                 onClick={() => setIsOpenReplyTo((curr) => !curr)}

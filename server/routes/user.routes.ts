@@ -12,13 +12,9 @@ import {
 const router: Router = express.Router();
 
 router.post("/register", register);
-
 router.post("/login", login);
-
 router.get("/auth", authMiddleware, auth);
-
 router.get("/logout", logout);
-
 router.post("/getUserProfile", getUserProfile);
 
 export default router;
