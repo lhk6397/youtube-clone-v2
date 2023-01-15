@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { cls } from "../../../libs/utils";
 import { RootState } from "../../../_store/store";
-import Comment from "../../components/Comment";
+import Comment, { IComment } from "../../components/Comment/Comment";
 import DetailVideoCard from "../../components/DetailVideoCard";
 import LikeDislikes from "../../components/LikeDislikes";
 import Subscriber from "../../components/Subscriber";
@@ -17,7 +17,7 @@ const DetailVideo = () => {
   const [video, setVideo] = useState<IVideo>();
   const [recommended, setRecommended] = useState<IVideo[]>([]);
   const [isPOpen, setIsPOpen] = useState(false);
-
+  const [comments, setComments] = useState<IComment[]>([]);
   const userId = user?.userData?._id;
 
   useEffect(() => {
@@ -58,10 +58,28 @@ const DetailVideo = () => {
       }
     };
 
+    const getComments = async () => {
+      const res = await axios.post(
+        "http://localhost:5000/api/comment/getComments",
+        { videoId },
+        { withCredentials: true }
+      );
+      if (res.data.success) {
+        setComments(res.data.comments);
+      } else {
+        alert("Failed to Recommended Videos");
+      }
+    };
+
     updateViews();
     getVideo();
     getRecommendedVideos();
+    getComments();
   }, [videoId, userId]);
+
+  const refreshFunc = (newComment: IComment) => {
+    setComments(comments.concat(newComment));
+  };
 
   return (
     <>
@@ -92,12 +110,14 @@ const DetailVideo = () => {
               </div>
               <div className="flex space-x-3">
                 <LikeDislikes />
-                <Subscriber userTo={video.writer._id} userFrom={userId} />
+                {video.writer._id !== userId && (
+                  <Subscriber userTo={video.writer._id} userFrom={userId} />
+                )}
               </div>
             </div>
             <div
               className={cls(
-                "my-6 bg-[#272727] px-3 py-4 rounded-2xl",
+                "my-6 bg-[#272727] px-4 py-2 rounded-2xl",
                 isPOpen ? "h-28" : ""
               )}
             >
@@ -139,25 +159,9 @@ const DetailVideo = () => {
             ))}
           </div>
           <div>
-            <span>댓글 2개</span>
+            <span>{`댓글 ${comments.length}개`}</span>
           </div>
-          <div className="space-y-3">
-            <div className="flex items-center my-2">
-              <div className="w-12 aspect-square bg-gray-400 rounded-full" />
-              <form className="border-b ml-2 w-full" action="">
-                <input
-                  className="appearance-none bg-transparent border-none w-full text-white py-1 leading-tight focus:outline-none placeholder:text-gray-300"
-                  type="text"
-                  placeholder="댓글 추가..."
-                />
-              </form>
-            </div>
-            {[1, 1, 1, 1, 1].map((_, i) => (
-              <div key={i}>
-                <Comment />
-              </div>
-            ))}
-          </div>
+          <Comment refreshFunc={refreshFunc} commentLists={comments} />
         </div>
       ) : (
         <div>Loading...</div>

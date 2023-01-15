@@ -9,6 +9,7 @@ import userRouter from "./routes/user.routes";
 import videoRouter from "./routes/video.routes";
 import viewRouter from "./routes/view.routes";
 import subscribeRouter from "./routes/subscribe.routes";
+import commentRouter from "./routes/comment.routes";
 
 const app: Express = express();
 
@@ -48,6 +49,7 @@ app.use("/api/user", userRouter);
 app.use("/api/video", videoRouter);
 app.use("/api/view", viewRouter);
 app.use("/api/subscribe", subscribeRouter);
+app.use("/api/comment", commentRouter);
 
 app.get("/", (req: Request, res: Response) => {
   res.send("Hello world!");
