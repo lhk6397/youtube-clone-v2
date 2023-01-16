@@ -31,16 +31,17 @@ const Register = () => {
 
     const response = await dispatch(registerUser(data));
     if (response.payload.success) {
+      window.localStorage.setItem("userId", response.payload.userId);
       navigate("/");
     } else {
-      alert("Failed to sign up!");
+      alert(response.payload.message);
     }
   };
 
   return (
-    <div className="mt-16 px-4">
-      <h3 className="text-3xl font-bold text-center">Enter to Youtube</h3>
-      <div className="mt-8">
+    <div className="mt-16 px-4 flex flex-col items-center">
+      <h3 className="text-3xl font-bold text-center">Register</h3>
+      <div className="mt-8 sm:w-screen sm:max-w-[50vw]">
         <form
           className="flex flex-col mt-8 space-y-2"
           onSubmit={handleSubmit(onValid)}

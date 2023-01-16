@@ -51,7 +51,7 @@ const Comment = ({ commentLists, refreshFunc }: CommentProps) => {
   return (
     <div className="space-y-3">
       {/* Root Comment Form */}
-      <div className="flex items-start my-2">
+      <div className="flex items-start my-6">
         <img
           className="w-11 aspect-square bg-gray-400 rounded-full"
           src={user?.userData?.image}

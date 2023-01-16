@@ -37,7 +37,7 @@ const HomeVideoCard = ({ video, videoWidth }: HomeVideoCardProps) => {
     <div
       className={cls(
         "mt-10  cursor-pointer group transition-all hover:rounded-sm hover:scale-105 hover:shadow-md hover:shadow-slate-700 hover:bg-[#272727]",
-        videoWidth === "lg" ? "mx-20" : "mx-5"
+        videoWidth === "lg" ? "mx-20 sm:mx-5" : "mx-5"
       )}
     >
       <Link to={`/video/${video._id}`}>

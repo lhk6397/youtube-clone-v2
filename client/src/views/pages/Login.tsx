@@ -23,14 +23,14 @@ const Login = () => {
       window.localStorage.setItem("userId", response.payload.userId);
       navigate("/");
     } else {
-      alert("Register Error!");
+      alert(response.payload.message);
     }
   };
 
   return (
-    <div className="mt-16 px-4">
-      <h3 className="text-3xl font-bold text-center">Enter to Youtube</h3>
-      <div className="mt-8">
+    <div className="mt-16 px-4 flex flex-col items-center">
+      <h3 className="text-3xl font-bold text-center">Login</h3>
+      <div className="mt-8 sm:w-screen sm:max-w-[50vw]">
         <form
           className="flex flex-col mt-8 space-y-2"
           onSubmit={handleSubmit(onValid)}

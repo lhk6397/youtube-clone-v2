@@ -7,7 +7,10 @@ import Profile from "./user/Profile";
 import Subscription from "./Subscription";
 import NotFound from "./404";
 import Auth from "../../hoc/authHoc";
-import History from "./History";
+import History from "./user/History";
+import UpdateProfile from "./user/UpdateProfile";
+import ChangeImage from "./user/ChangeImage";
+import ChangePassword from "./user/ChangePassword";
 
 const AuthHome = Auth(Home, null);
 const AuthLogin = Auth(Login, false);
@@ -17,6 +20,9 @@ const AuthDetailVideo = Auth(DetailVideo, null);
 const AuthSubscription = Auth(Subscription, null);
 const AuthProfile = Auth(Profile, null);
 const AuthHistory = Auth(History, true);
+const AuthUpdateProfile = Auth(UpdateProfile, true);
+const AuthChangeImage = Auth(ChangeImage, true);
+const AuthChangePassword = Auth(ChangePassword, true);
 
 export {
   AuthHome,
@@ -28,4 +34,7 @@ export {
   NotFound,
   AuthSubscription,
   AuthHistory,
+  AuthUpdateProfile,
+  AuthChangeImage,
+  AuthChangePassword,
 };

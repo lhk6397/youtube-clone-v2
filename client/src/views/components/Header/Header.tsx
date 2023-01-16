@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { RootState } from "../../../_store/store";
 import LeftMenu from "./LeftMenu";
 import SideBar from "./SideBar";
@@ -8,12 +8,14 @@ import { BiUserPin } from "react-icons/bi";
 import { MdOutlineLogout } from "react-icons/md";
 import { IoSettingsOutline } from "react-icons/io5";
 import axios from "axios";
+import LargeSideBar from "./LargeSideBar";
 
 const Overlay = () => {
   return <div className="absolute w-full h-screen bg-black opacity-60 z-20" />;
 };
 
 const Header = () => {
+  const { videoId } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
   const [avatarClicked, setAvatarClicked] = useState(false);
@@ -35,13 +37,19 @@ const Header = () => {
       alert("Logout Error!");
     }
   };
+
   return (
     <>
       <SideBar />
+      {location.pathname !== `/video/${videoId}` && (
+        <div className="hidden lg:block">
+          <LargeSideBar />
+        </div>
+      )}
       {isOpen && <Overlay />}
-      <div className="z-10 fixed w-full h-14 flex items-center justify-between px-4 bg-[#0F0F0F]">
+      <div className="z-10 fixed w-full h-14 flex items-center justify-between px-6 bg-[#0F0F0F]">
         <LeftMenu />
-        <div className="flex space-x-4 items-center">
+        <div className="flex space-x-4 items-center lg:space-x-6">
           <button>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -85,7 +93,7 @@ const Header = () => {
                 onClick={() => setAvatarClicked((curr) => !curr)}
               />
               {avatarClicked && (
-                <section className="w-64 absolute bg-[#282828] text-base z-50 list-none text-left rounded-lg shadow-lg border-none right-0 divide-gray-700 divide-y-[0.5px]">
+                <section className="w-64 absolute bg-[#282828] text-base z-50 list-none text-left rounded-lg shadow-lg border-none right-0 divide-gray-700 divide-y-[0.5px] overflow-hidden">
                   <div className="px-4 flex items-start space-x-3 py-4">
                     <img
                       src={user.userData.image}
@@ -113,22 +121,21 @@ const Header = () => {
                       </Link>
                     </li>
                     <li>
-                      <Link
-                        to="#"
+                      <div
                         className="text-sm py-2 px-4 font-normal whitespace-nowrap bg-transparent text-white hover:bg-[#3E3E3E] flex items-center space-x-4"
                         onClick={logoutHandler}
                       >
                         <MdOutlineLogout className="flex-shrink-0 w-6 h-6" />
                         <span>로그아웃</span>
-                      </Link>
+                      </div>
                     </li>
                     <li>
                       <Link
-                        to="#"
+                        to="/user/update"
                         className="text-sm py-2 px-4 font-normal whitespace-nowrap bg-transparent text-white hover:bg-[#3E3E3E] flex items-center space-x-4"
                       >
                         <IoSettingsOutline className="flex-shrink-0 w-6 h-6" />
-                        <span>설정</span>
+                        <span>계정</span>
                       </Link>
                     </li>
                   </ul>

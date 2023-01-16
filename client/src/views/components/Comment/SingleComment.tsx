@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { cls, getTimegap } from "../../../libs/utils";
 import { RootState } from "../../../_store/store";
 import LikeDislikes from "../LikeDislikes";
@@ -52,11 +52,13 @@ const SingleComment = ({ comment, refreshFunc }: SingleCommentProps) => {
           onMouseOver={() => setIsHover(true)}
           onMouseLeave={() => setIsHover(false)}
         >
-          <img
-            className="w-10 h-10 bg-gray-400 rounded-full"
-            src={comment.writer.avatarUrl}
-            alt="avatar"
-          />
+          <Link to={`/user/${comment.writer._id}`}>
+            <img
+              className="w-10 h-10 bg-gray-400 rounded-full"
+              src={comment.writer.avatarUrl}
+              alt="avatar"
+            />
+          </Link>
           <div className="flex flex-col space-y-0.5 w-full">
             <div className="flex items-center space-x-1">
               <h3 className="text-sm mb-0.5 font-bold">

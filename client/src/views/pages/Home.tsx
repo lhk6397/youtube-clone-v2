@@ -44,7 +44,7 @@ const Home = () => {
     getVideos();
   }, []);
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 sm:grid sm:grid-cols-2 sm:space-y-0 lg:grid-cols-3 xl:grid-cols-4">
       {videos.map((video, i) => (
         <div key={i}>
           <HomeVideoCard videoWidth="lg" video={video} />

@@ -22,7 +22,7 @@ export const register = async (
     });
     if (existingUser) {
       // req.flash("fail", "이미 존재하는 이름 또는 이메일입니다.");
-      return res.status(400).json({
+      return res.status(200).json({
         registerSuccess: false,
         errorMessage: "이미 존재하는 이름 또는 이메일입니다.",
       });
@@ -41,7 +41,7 @@ export const register = async (
     });
   } catch (error) {
     // req.flash("fail", "회원가입에 실패하였습니다.");
-    return res.status(400).json({
+    return res.status(200).json({
       registerSuccess: false,
       message: "회원가입에 실패하였습니다.",
     });
@@ -53,7 +53,7 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
     const { email, password } = req.body;
     const foundUser = await User.findOne({ email });
     if (!foundUser)
-      return res.status(400).json({
+      return res.status(200).json({
         loginSuccess: false,
         message: "이메일에 해당하는 유저가 없습니다.",
       });
@@ -64,8 +64,9 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
     );
 
     if (!isMatch) {
+      console.log("비밀번호 오류");
       // req.flash("error", "비밀번호가 일치하지 않습니다.");
-      return res.status(400).json({
+      return res.status(200).json({
         loginSuccess: false,
         message: "비밀번호가 일치하지 않습니다.",
       });
@@ -80,8 +81,8 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
     });
   } catch (error) {
     // req.flash("fail", "로그인에 실패하였습니다.");
-    return res.status(400).json({
-      loginSuccess: true,
+    return res.status(200).json({
+      loginSuccess: false,
       message: "로그인에 실패하였습니다.",
     });
   }
@@ -119,6 +120,47 @@ export const getUserProfile = async (
       user,
     });
   } catch (err) {
-    return res.status(400).send(err);
+    return res.status(200).send(err);
+  }
+};
+
+export const changePassword = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  try {
+    const { userId, password, curPassword } = req.body;
+
+    const foundUser = await User.findOne({ _id: userId });
+
+    if (foundUser) {
+      const isMatch: boolean = await bcrypt.compare(
+        curPassword,
+        foundUser.password
+      );
+      if (isMatch) {
+        const hashedPwd = await bcrypt.hash(password, 12);
+        await User.findOneAndUpdate({ _id: userId }, { password: hashedPwd });
+        return res.status(200).json({
+          success: true,
+        });
+      } else {
+        return res.status(200).json({
+          success: false,
+          message: "현재 비밀번호가 일치하지 않습니다.",
+        });
+      }
+    } else {
+      return res.status(200).json({
+        success: false,
+        message: "유저 정보가 없습니다.",
+      });
+    }
+  } catch (error) {
+    // req.flash("fail", "회원가입에 실패하였습니다.");
+    return res.status(200).json({
+      success: false,
+      message: "비밀번호 변경에 실패하였습니다.",
+    });
   }
 };

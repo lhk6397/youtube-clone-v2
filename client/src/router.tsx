@@ -10,6 +10,9 @@ import {
   AuthProfile,
   AuthSubscription,
   AuthHistory,
+  AuthUpdateProfile,
+  AuthChangeImage,
+  AuthChangePassword,
 } from "./views/pages/index";
 
 const router = createBrowserRouter([
@@ -22,15 +25,15 @@ const router = createBrowserRouter([
         element: <AuthHome />,
       },
       {
-        path: "/login",
+        path: "login",
         element: <AuthLogin />,
       },
       {
-        path: "/register",
+        path: "register",
         element: <AuthRegister />,
       },
       {
-        path: "/video",
+        path: "video",
         children: [
           {
             path: "upload",
@@ -43,7 +46,7 @@ const router = createBrowserRouter([
         ],
       },
       {
-        path: "/user",
+        path: "user",
         children: [
           {
             path: "history",
@@ -52,6 +55,23 @@ const router = createBrowserRouter([
           {
             path: ":userId",
             element: <AuthProfile />,
+          },
+          {
+            path: "update",
+            children: [
+              {
+                path: "",
+                element: <AuthUpdateProfile />,
+              },
+              {
+                path: "changeImage",
+                element: <AuthChangeImage />,
+              },
+              {
+                path: "changePassword",
+                element: <AuthChangePassword />,
+              },
+            ],
           },
         ],
       },

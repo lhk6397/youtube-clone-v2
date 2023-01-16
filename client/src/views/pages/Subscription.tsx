@@ -24,7 +24,7 @@ const Subscription = () => {
   return (
     <>
       <h1 className="text-3xl px-10 mt-5">구독</h1>
-      <div className="grid grid-cols-2">
+      <div className="space-y-4 sm:grid sm:grid-cols-2 sm:space-y-0 lg:grid-cols-3 xl:grid-cols-4">
         {videos.map((video, i) => (
           <div key={i}>
             <HomeVideoCard videoWidth="sm" video={video} />

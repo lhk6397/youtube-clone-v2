@@ -52,7 +52,7 @@ const Profile = () => {
     getSubscribeNumber();
   }, [userId]);
   return (
-    <div className="px-6 py-4 space-y-5">
+    <div className="px-6 py-4 space-y-6">
       <div className="flex space-x-6">
         <img
           className="w-20 aspect-square bg-gray-400 rounded-full"
@@ -67,7 +67,7 @@ const Profile = () => {
           <span className="text-xs text-gray-400">{`구독자 ${subscribeNumber}명`}</span>
         </div>
       </div>
-      <h1 className="text-2xl font-extralight">My Video</h1>
+      <h1 className="text-2xl">내 동영상</h1>
       {videos.map((video, i) => (
         <div key={i}>
           <DetailVideoCard videoWidth={"lg"} video={video} />{" "}

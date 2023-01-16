@@ -14,18 +14,28 @@
 ## Function
 
 <ul>
-    <li>User Login/Register/Logout [✔]</li>
-    <li>User Profile Update[]</li>
-    <li>Video Upload [✔]</li>
-    <li>Video Update []</li>
-    <li>Subscribe [✔]</li>
-    <li>View Count Update [✔]</li>
-    <li>View History [✔]</li>
-    <li>Like/Dislike []</li>
-    <li>Comment []</li>
-    <li>Search Video</li>
-    <li>Responsive Style</li>
-    <li>Categorize</li>
-    <li>Infinite Scroll</li>
-    <li>Custom Video</li>
+    <li>
+    To Do []
+    <ul>
+        <li>User Profile Update []</li>
+        <li>Video Update []</li>
+        <li>Search Video []</li>
+        <li>Categorize []</li>
+        <li>Infinite Scroll []</li>
+    </ul>
+    </li>
+    <li>
+    Done [✔]
+    <ul>
+        <li>Responsive Style [✔]</li>
+        <li>User Login/Register/Logout [✔]</li>
+        <li>Video Upload [✔]</li>
+        <li>Subscribe [✔]</li>
+        <li>View Count Update [✔]</li>
+        <li>View History [✔]</li>
+        <li>Custom Video []</li>
+        <li>Like/Dislike [✔]</li>
+        <li>Comment [✔]</li>
+    </ul>
+    </li>
 </ul>
