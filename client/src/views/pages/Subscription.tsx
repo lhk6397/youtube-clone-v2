@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { IVideo } from "../../libs/interface";
 import HomeVideoCard from "../components/HomeVideoCard";
-import { IVideo } from "./Home";
 
 const Subscription = () => {
   const [videos, setVideos] = useState<IVideo[]>([]);

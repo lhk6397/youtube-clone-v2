@@ -9,7 +9,7 @@ import { RxCounterClockwiseClock } from "react-icons/rx";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../_store/store";
 import axios from "axios";
-import { IUser } from "../../pages/Home";
+import { IUser } from "../../../libs/interface";
 
 const SideBar = () => {
   const isOpen = useSelector((state: RootState) => state.sidebar.value);
@@ -72,7 +72,7 @@ const SideBar = () => {
           </li>
           <li>
             <Link
-              to="#"
+              to="/user/likes"
               className="flex items-center py-2 text-sm font-normal text-gray-900 transition duration-75 rounded-lg hover:bg-[#272727] dark:hover:bg-[#272727] dark:text-white group"
             >
               <AiOutlineLike className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
@@ -100,7 +100,7 @@ const SideBar = () => {
                 >
                   <img
                     className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white rounded-full"
-                    src={subscribedUser.avatarUrl}
+                    src={`http://localhost:5000/${subscribedUser.avatarUrl}`}
                     alt="avatar"
                   />
                   <span className="ml-3">{subscribedUser.username}</span>

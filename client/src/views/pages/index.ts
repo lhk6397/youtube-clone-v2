@@ -11,6 +11,8 @@ import History from "./user/History";
 import UpdateProfile from "./user/UpdateProfile";
 import ChangeImage from "./user/ChangeImage";
 import ChangePassword from "./user/ChangePassword";
+import LikeVideos from "./user/LikeVideos";
+import UpdateVideo from "./video/UpdateVideo";
 
 const AuthHome = Auth(Home, null);
 const AuthLogin = Auth(Login, false);
@@ -23,6 +25,8 @@ const AuthHistory = Auth(History, true);
 const AuthUpdateProfile = Auth(UpdateProfile, true);
 const AuthChangeImage = Auth(ChangeImage, true);
 const AuthChangePassword = Auth(ChangePassword, true);
+const AuthLikeVideos = Auth(LikeVideos, true);
+const AuthUpdateVideo = Auth(UpdateVideo, true);
 
 export {
   AuthHome,
@@ -37,4 +41,6 @@ export {
   AuthUpdateProfile,
   AuthChangeImage,
   AuthChangePassword,
+  AuthLikeVideos,
+  AuthUpdateVideo,
 };

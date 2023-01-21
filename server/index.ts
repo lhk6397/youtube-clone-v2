@@ -1,4 +1,5 @@
 import connect from "./db";
+import fs from "fs";
 import { Request, Response } from "express";
 import cors from "cors";
 import express, { Express } from "express";
@@ -14,6 +15,27 @@ import likeRouter from "./routes/like.routes";
 
 const app: Express = express();
 
+try {
+  fs.readdirSync("uploads");
+} catch (err) {
+  console.error("uploads 폴더가 없습니다. 폴더를 생성합니다.");
+  fs.mkdirSync("uploads");
+}
+
+try {
+  fs.readdirSync("uploads/thumbnails");
+} catch (err) {
+  console.error("uploads/thumbnails 폴더가 없습니다. 폴더를 생성합니다.");
+  fs.mkdirSync("uploads/thumbnails");
+}
+
+try {
+  fs.readdirSync("uploads/profileImage");
+} catch (err) {
+  console.error("uploads/profileImage 폴더가 없습니다. 폴더를 생성합니다.");
+  fs.mkdirSync("uploads/profileImage");
+}
+
 require("dotenv").config();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -26,6 +48,7 @@ app.use(
   })
 );
 app.use("/uploads", express.static("uploads"));
+app.use("/assets", express.static("assets"));
 app.use(
   session({
     secret: process.env.COOKIE_SECRET as string,

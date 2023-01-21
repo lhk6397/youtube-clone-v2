@@ -17,8 +17,6 @@
     <li>
     To Do []
     <ul>
-        <li>User Profile Update []</li>
-        <li>Video Update []</li>
         <li>Search Video []</li>
         <li>Categorize []</li>
         <li>Infinite Scroll []</li>
@@ -27,6 +25,8 @@
     <li>
     Done [✔]
     <ul>
+        <li>Video Update [✔]</li>
+        <li>User Profile Update [✔]</li>
         <li>Responsive Style [✔]</li>
         <li>User Login/Register/Logout [✔]</li>
         <li>Video Upload [✔]</li>

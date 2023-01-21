@@ -94,7 +94,10 @@ const UploadVideo = () => {
   };
 
   return (
-    <form className="px-4 py-16 space-y-3" onSubmit={handleSubmit(onValid)}>
+    <form
+      className="px-4 py-16 space-y-3 sm:w-screen sm:max-w-[50vw] mx-auto"
+      onSubmit={handleSubmit(onValid)}
+    >
       {thumbnail !== "" ? (
         <div className="mb-5 flex flex-col items-center space-y-5">
           <h1 className="text-3xl font-bold">Thumbnail</h1>

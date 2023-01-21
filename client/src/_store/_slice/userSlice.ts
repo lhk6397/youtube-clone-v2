@@ -40,6 +40,19 @@ export const authUser = createAsyncThunk("userSlice/authUser", async () => {
     .catch((error) => console.log(error));
 });
 
+export const updateProfileImage = createAsyncThunk(
+  "userSlice/updateProfileImage",
+  async (variable: any) => {
+    console.log(variable);
+    return axios
+      .post("http://localhost:5000/api/user/updateProfileImage", variable, {
+        withCredentials: true,
+      })
+      .then((response) => response.data)
+      .catch((error) => console.log(error));
+  }
+);
+
 export const userSlice = createSlice({
   // slice 이름 정의
   name: "userSlice",
@@ -63,6 +76,9 @@ export const userSlice = createSlice({
     });
     builder.addCase(authUser.fulfilled, (state, action) => {
       return { ...state, userData: action.payload };
+    });
+    builder.addCase(updateProfileImage.fulfilled, (state, action) => {
+      return { ...state, success: action.payload.user };
     });
   },
 });

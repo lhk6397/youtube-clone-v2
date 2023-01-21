@@ -38,7 +38,7 @@ const LargeSideBar = () => {
         </li>
         <li>
           <Link
-            to="#"
+            to="/user/likes"
             className="p-4 flex flex-col items-center text-xs font-normal text-gray-900 rounded-lg dark:text-white hover:bg-[#272727] dark:hover:bg-[#272727]"
           >
             <AiOutlineLike className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900 dark:group-hover:text-white dark:text-gray-400" />

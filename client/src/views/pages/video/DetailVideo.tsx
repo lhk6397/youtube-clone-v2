@@ -1,16 +1,17 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { IComment, IVideo } from "../../../libs/interface";
 import { cls } from "../../../libs/utils";
 import { RootState } from "../../../_store/store";
-import Comment, { IComment } from "../../components/Comment/Comment";
+import Comment from "../../components/Comment/Comment";
 import DetailVideoCard from "../../components/DetailVideoCard";
 import LikeDislikes from "../../components/LikeDislikes";
 import Subscriber from "../../components/Subscriber";
-import { IVideo } from "../Home";
 
 const DetailVideo = () => {
+  const navigate = useNavigate();
   const { videoId } = useParams();
   const user = useSelector((state: RootState) => state.user);
   const [views, setViews] = useState(0);
@@ -75,10 +76,29 @@ const DetailVideo = () => {
     getVideo();
     getRecommendedVideos();
     getComments();
-  }, [videoId, userId]);
+  }, [videoId]);
 
-  const refreshFunc = (newComment: IComment) => {
-    setComments(comments.concat(newComment));
+  const refreshFunc = (type: string, comment: IComment) => {
+    if (type === "create") {
+      setComments(comments.concat(comment));
+    } else if (type === "delete") {
+      console.log("delete");
+      setComments(
+        comments.filter(
+          (ccomment) =>
+            ccomment._id !== comment._id && ccomment?.responseTo !== comment._id
+        )
+      );
+    } else {
+      // update
+      setComments(
+        comments.map((ccomment: IComment) =>
+          ccomment._id === comment._id
+            ? { ...ccomment, content: comment.content }
+            : ccomment
+        )
+      );
+    }
   };
 
   return (
@@ -93,12 +113,24 @@ const DetailVideo = () => {
             ></video>
 
             <div className="mt-5">
-              <h1 className="text-2xl font-bold text-white">{video?.title}</h1>
+              <div className="flex justify-between items-center">
+                <h1 className="text-2xl font-bold text-white">
+                  {video?.title}
+                </h1>
+                {video.writer._id === localStorage.getItem("userId") && (
+                  <button
+                    className="ml-2 px-4 py-2 bg-red-600 hover:bg-red-700 rounded-xl"
+                    onClick={() => navigate(`/video/${video._id}/update`)}
+                  >
+                    수정
+                  </button>
+                )}
+              </div>
               <div className="mt-4 flex justify-between items-center">
                 <div className="flex space-x-4 items-center">
                   <Link to={`/user/${video.writer._id}`}>
                     <img
-                      src={video?.writer.avatarUrl}
+                      src={`http://localhost:5000/${video?.writer.avatarUrl}`}
                       alt="avatar"
                       className="w-10 h-10 bg-gray-400 rounded-full"
                     />
@@ -107,7 +139,6 @@ const DetailVideo = () => {
                     <h3 className="text-sm mb-0.5 font-bold text-white ">
                       {video?.writer.username}
                     </h3>
-                    <span className="text-xs text-gray-400">{`구독자 0명`}</span>
                     <span className="text-xs text-gray-400">{`조회수 ${views}회`}</span>
                   </div>
                 </div>

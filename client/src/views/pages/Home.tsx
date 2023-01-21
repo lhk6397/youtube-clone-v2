@@ -1,31 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { IVideo } from "../../libs/interface";
 import HomeVideoCard from "../components/HomeVideoCard";
-
-export interface IUser {
-  _id: string;
-  username: string;
-  email: string;
-  password: string;
-  role: number;
-  avatarUrl: string;
-  __v: number;
-}
-
-export interface IVideo {
-  _id: string;
-  writer: IUser;
-  title: string;
-  description: string;
-  privacy: string;
-  filePath: string;
-  category: string;
-  duration: number;
-  thumbnail: string;
-  createdAt: number;
-  updatedAt?: any;
-  __v?: number;
-}
 
 const Home = () => {
   const [videos, setVideos] = useState<IVideo[]>([]);

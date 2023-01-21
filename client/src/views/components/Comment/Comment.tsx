@@ -2,21 +2,11 @@ import axios from "axios";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import { IComment } from "../../../libs/interface";
 import { cls } from "../../../libs/utils";
 import { RootState } from "../../../_store/store";
-import { IUser } from "../../pages/Home";
 import ReplyComment from "./ReplyComment";
 import SingleComment from "./SingleComment";
-
-export interface IComment {
-  _id: string;
-  writer: IUser;
-  videoId: string;
-  content: string;
-  responseTo?: any;
-  createdAt: number;
-  updatedAt: any;
-}
 
 interface CommentProps {
   commentLists: IComment[];
@@ -31,18 +21,23 @@ const Comment = ({ commentLists, refreshFunc }: CommentProps) => {
   const user = useSelector((state: RootState) => state.user);
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
     const variables = {
       content: comment,
       writer: localStorage.getItem("userId"),
       videoId,
     };
 
-    const res = await axios.post("/api/comment/saveComment", variables);
+    const res = await axios.post(
+      "http://localhost:5000/api/comment/saveComment",
+      variables,
+      { withCredentials: true }
+    );
     if (res.data.success) {
       setComment("");
       setIsFocus(false);
       setIsOnInput(false);
-      refreshFunc(res.data.foundComment);
+      refreshFunc("create", res.data.foundComment);
     } else {
       alert("Failed to save Comment");
     }
@@ -54,7 +49,7 @@ const Comment = ({ commentLists, refreshFunc }: CommentProps) => {
       <div className="flex items-start my-6">
         <img
           className="w-11 aspect-square bg-gray-400 rounded-full"
-          src={user?.userData?.image}
+          src={`http://localhost:5000/${user?.userData?.image}`}
           alt="avatar"
         />
         <form className="flex flex-col w-full" onSubmit={onSubmit}>

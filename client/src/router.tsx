@@ -13,6 +13,8 @@ import {
   AuthUpdateProfile,
   AuthChangeImage,
   AuthChangePassword,
+  AuthLikeVideos,
+  AuthUpdateVideo,
 } from "./views/pages/index";
 
 const router = createBrowserRouter([
@@ -41,7 +43,16 @@ const router = createBrowserRouter([
           },
           {
             path: ":videoId",
-            element: <AuthDetailVideo />,
+            children: [
+              {
+                path: "",
+                element: <AuthDetailVideo />,
+              },
+              {
+                path: "update",
+                element: <AuthUpdateVideo />,
+              },
+            ],
           },
         ],
       },
@@ -55,6 +66,10 @@ const router = createBrowserRouter([
           {
             path: ":userId",
             element: <AuthProfile />,
+          },
+          {
+            path: "likes",
+            element: <AuthLikeVideos />,
           },
           {
             path: "update",

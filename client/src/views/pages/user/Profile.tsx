@@ -1,12 +1,12 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { IUser, IVideo } from "../../../libs/interface";
 import DetailVideoCard from "../../components/DetailVideoCard";
-import { IUser, IVideo } from "../Home";
 
 const Profile = () => {
   const { userId } = useParams();
-  const [user, setUser] = useState<IUser>({} as IUser);
+  const [user, setUser] = useState<IUser | null>(null);
   const [videos, setVideos] = useState<IVideo[]>([]);
   const [subscribeNumber, setSubscribeNumber] = useState(0);
   useEffect(() => {
@@ -51,29 +51,34 @@ const Profile = () => {
     getUserVideos();
     getSubscribeNumber();
   }, [userId]);
+
   return (
-    <div className="px-6 py-4 space-y-6">
-      <div className="flex space-x-6">
-        <img
-          className="w-20 aspect-square bg-gray-400 rounded-full"
-          src={user.avatarUrl}
-          alt="avatar"
-        />
-        <div className="flex flex-col space-y-1">
-          <h3 className="text-xl mb-0.5 font-medium text-white ">
-            {user.username}
-          </h3>
-          <span className="text-xs text-gray-400">@{user._id}</span>
-          <span className="text-xs text-gray-400">{`구독자 ${subscribeNumber}명`}</span>
+    <>
+      {user && (
+        <div className="px-6 py-4 space-y-6">
+          <div className="flex space-x-6">
+            <img
+              className="w-20 aspect-square bg-gray-400 rounded-full"
+              src={`http://localhost:5000/${user.avatarUrl}`}
+              alt="avatar"
+            />
+            <div className="flex flex-col space-y-1">
+              <h3 className="text-xl mb-0.5 font-medium text-white ">
+                {user.username}
+              </h3>
+              <span className="text-xs text-gray-400">@{user._id}</span>
+              <span className="text-xs text-gray-400">{`구독자 ${subscribeNumber}명`}</span>
+            </div>
+          </div>
+          <h1 className="text-2xl">내 동영상</h1>
+          {videos.map((video, i) => (
+            <div key={i}>
+              <DetailVideoCard videoWidth={"lg"} video={video} />{" "}
+            </div>
+          ))}
         </div>
-      </div>
-      <h1 className="text-2xl">내 동영상</h1>
-      {videos.map((video, i) => (
-        <div key={i}>
-          <DetailVideoCard videoWidth={"lg"} video={video} />{" "}
-        </div>
-      ))}
-    </div>
+      )}
+    </>
   );
 };
 

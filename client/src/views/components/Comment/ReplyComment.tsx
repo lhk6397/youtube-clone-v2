@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { IComment } from "./Comment";
 import { RiArrowDownSFill, RiArrowUpSFill } from "react-icons/ri";
+import { IComment } from "../../../libs/interface";
 import SingleComment from "./SingleComment";
 
 interface ReplyCommentProps {

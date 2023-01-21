@@ -7,7 +7,6 @@ export const saveComment = async (
   res: Response
 ): Promise<Response> => {
   try {
-    // console.log(req.body);
     const comment = new Comment(req.body);
     await comment.save();
     const foundComment = await Comment.find({ _id: comment._id }).populate(
@@ -30,5 +29,34 @@ export const getComments = async (
     return res.status(200).json({ success: true, comments });
   } catch (err) {
     return res.status(400).json({ success: false, err });
+  }
+};
+
+export const deleteComment = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  try {
+    await Comment.findOneAndDelete({ _id: req.body._id });
+    await Comment.deleteMany({ responseTo: req.body._id });
+    return res.json({ success: true });
+  } catch (err) {
+    return res.json({ success: false, err });
+  }
+};
+
+export const updateComment = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  try {
+    const updatedComment = await Comment.findOneAndUpdate(
+      { _id: req.body.commentId },
+      { content: req.body.content },
+      { new: true }
+    );
+    return res.json({ success: true, updatedComment });
+  } catch (err) {
+    return res.json({ success: false, err });
   }
 };

@@ -1,8 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { IVideo } from "../../libs/interface";
 import { cls, getTimegap } from "../../libs/utils";
-import { IVideo } from "../pages/Home";
 
 interface HomeVideoCardProps {
   videoWidth: "sm" | "lg";
@@ -53,7 +53,7 @@ const HomeVideoCard = ({ video, videoWidth }: HomeVideoCardProps) => {
         </div>
         <div className="mt-4 flex space-x-4">
           <img
-            src={video.writer.avatarUrl}
+            src={`http://localhost:5000/${video.writer.avatarUrl}`}
             alt="avatar"
             className="w-10 h-10 bg-gray-400 rounded-full"
           />

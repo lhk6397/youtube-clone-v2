@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import { RootState } from "../../../_store/store";
+import { AppDispatch, RootState } from "../../../_store/store";
+import { reverse } from "../../../_store/_slice/sidebarSlice";
 import LeftMenu from "./LeftMenu";
 import SideBar from "./SideBar";
 import { BiUserPin } from "react-icons/bi";
@@ -11,7 +12,13 @@ import axios from "axios";
 import LargeSideBar from "./LargeSideBar";
 
 const Overlay = () => {
-  return <div className="absolute w-full h-screen bg-black opacity-60 z-20" />;
+  const dispatch = useDispatch<AppDispatch>();
+  return (
+    <div
+      className="absolute w-full h-screen bg-black opacity-60 z-20"
+      onClick={() => dispatch(reverse())}
+    />
+  );
 };
 
 const Header = () => {
@@ -87,7 +94,7 @@ const Header = () => {
           {user && user?.userData?.isAuth ? (
             <div className="relative ">
               <img
-                src={user.userData.image}
+                src={`http://localhost:5000/${user.userData.image}`}
                 alt="avatar"
                 className="rounded-full bg-slate-400 w-7 h-7 cursor-pointer"
                 onClick={() => setAvatarClicked((curr) => !curr)}
@@ -96,7 +103,7 @@ const Header = () => {
                 <section className="w-64 absolute bg-[#282828] text-base z-50 list-none text-left rounded-lg shadow-lg border-none right-0 divide-gray-700 divide-y-[0.5px] overflow-hidden">
                   <div className="px-4 flex items-start space-x-3 py-4">
                     <img
-                      src={user.userData.image}
+                      src={`http://localhost:5000/${user.userData.image}`}
                       alt="avatar"
                       className="w-10 aspect-square bg-gray-400 rounded-full cursor-pointer"
                       onClick={() => setAvatarClicked((curr) => !curr)}

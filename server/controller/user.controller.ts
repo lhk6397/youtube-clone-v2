@@ -31,13 +31,14 @@ export const register = async (
       username,
       email,
       password,
-      avatarUrl: `http://gravatar.com/avatar/${moment().unix()}?d=identicon`,
+      avatarUrl: "assets/images/defaultProfileImage.png",
     });
     req.session.loggedInUser = user;
     req.session.isLoggedIn = true;
     // req.flash("success", `반갑습니다, ${req.session.loggedInUser.username}님`);
     return res.status(200).json({
       success: true,
+      userId: user._id,
     });
   } catch (error) {
     // req.flash("fail", "회원가입에 실패하였습니다.");
@@ -162,5 +163,51 @@ export const changePassword = async (
       success: false,
       message: "비밀번호 변경에 실패하였습니다.",
     });
+  }
+};
+
+/*
+1. client 파일 제출
+2. 백엔드 서버에 저장 + db의 user data 갱신, session.loggedInUser.image 변경-> 파일 경로 반환
+3. 파일 경로에서 이미지 읽어서 previewImage로 활용
+4. 
+
+*/
+
+export const uploadProfileImage = (req: Request, res: Response): Response => {
+  if (req.file) {
+    return res.json({
+      success: true,
+      filePath: req?.file.path,
+      fileName: req?.file.filename,
+    });
+  }
+  return res.json({
+    success: false,
+  });
+};
+
+export const updateProfileImage = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  try {
+    const { userId, filePath } = req.body;
+    const user = await User.findOneAndUpdate(
+      { _id: userId },
+      { avatarUrl: filePath },
+      { new: true }
+    );
+    if (user) {
+      req.session.loggedInUser = user;
+      return res.status(200).json({
+        success: true,
+      });
+    }
+    return res.status(200).json({
+      success: false,
+    });
+  } catch (err) {
+    return res.status(400).json({ success: false, err });
   }
 };

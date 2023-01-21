@@ -1,8 +1,8 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
+import { IVideo } from "../../libs/interface";
 import { cls, getTimegap } from "../../libs/utils";
-import { IVideo } from "../pages/Home";
 
 interface DetailVideoCardProps {
   videoWidth: "sm" | "lg";

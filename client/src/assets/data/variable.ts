@@ -19,3 +19,7 @@ export interface VideoUploadForm {
   private: string;
   category: string;
 }
+
+export interface ProfileImageUploadForm {
+  profileImage: any;
+}

@@ -5,8 +5,9 @@ import Video from "../models/Video";
 import Subscriber from "../models/Subscriber";
 import { Types } from "mongoose";
 import View from "../models/View";
+import Like from "../models/Like";
 
-export const uploadFiles = (req: Request, res: Response): Response | void => {
+export const uploadFiles = (req: Request, res: Response): Response => {
   if (req.file) {
     return res.json({
       success: true,
@@ -14,6 +15,7 @@ export const uploadFiles = (req: Request, res: Response): Response | void => {
       fileName: req?.file.filename,
     });
   }
+  return res.json({ success: false });
 };
 
 export const getThumbnail = (req: Request, res: Response): Response | void => {
@@ -26,15 +28,13 @@ export const getThumbnail = (req: Request, res: Response): Response | void => {
 
   ffmpeg(req.body.filePath)
     .on("filenames", function (filenames) {
-      console.log("Will generate " + filenames.join(", "));
       thumbsFilePath = "uploads/thumbnails/" + filenames[0];
     })
     .on("end", function () {
-      console.log("Screenshots taken");
       return res.json({ success: true, thumbsFilePath, fileDuration });
     })
     .screenshots({
-      count: 3,
+      count: 1,
       folder: "uploads/thumbnails",
       size: "320x240",
       // %b input basename ( filename w/o extension )
@@ -50,6 +50,43 @@ export const uploadVideo = async (
     const video = new Video(req.body);
 
     await video.save();
+    return res.status(200).json({
+      success: true,
+    });
+  } catch (err) {
+    return res.status(400).json({ success: false, err });
+  }
+};
+
+export const updateVideo = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  try {
+    const {
+      title,
+      description,
+      privacy,
+      filePath,
+      category,
+      duration,
+      thumbnail,
+    } = req.body;
+
+    await Video.findByIdAndUpdate(
+      req.body.videoId,
+      {
+        title,
+        description,
+        privacy,
+        filePath,
+        category,
+        duration,
+        thumbnail,
+      },
+      { new: true }
+    );
+
     return res.status(200).json({
       success: true,
     });
@@ -145,6 +182,29 @@ export const getWatchedVideos = async (
     );
     const videos = await Video.find({
       _id: { $in: uniqueViews },
+    }).populate("writer");
+
+    return res.status(200).json({ success: true, videos });
+  } catch (err) {
+    return res.status(400).send(err);
+  }
+};
+
+export const getLikedVideo = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  try {
+    const likes = await Like.find({
+      userId: req.body.userId,
+      videoId: { $ne: null },
+    });
+
+    const likedVideos: any[] = [];
+    likes.map((like) => likedVideos.push(like.videoId));
+
+    const videos = await Video.find({
+      _id: { $in: likedVideos },
     }).populate("writer");
 
     return res.status(200).json({ success: true, videos });

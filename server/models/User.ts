@@ -8,6 +8,7 @@ export interface UserDocument extends mongoose.Document {
   avatarUrl?: string;
   password: string;
   role: number;
+  subscriber: number;
   __v?: number;
 }
 
