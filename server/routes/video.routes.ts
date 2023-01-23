@@ -10,6 +10,7 @@ import {
   getWatchedVideos,
   getLikedVideo,
   updateVideo,
+  deleteVideo,
 } from "../controller/video.controller";
 import upload from "../middleware/videoMulter";
 
@@ -25,5 +26,6 @@ router.post("/getSubscriptionVideos", getSubscriptionVideos);
 router.post("/getWatchedVideos", getWatchedVideos);
 router.post("/getUserVideos", getUserVideos);
 router.post("/getLikedVideo", getLikedVideo);
+router.post("/deleteVideo", deleteVideo);
 
 export default router;

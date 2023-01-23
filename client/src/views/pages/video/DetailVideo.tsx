@@ -101,6 +101,19 @@ const DetailVideo = () => {
     }
   };
 
+  const deleteVideo = async () => {
+    const res = await axios.post(
+      "http://localhost:5000/api/video/deleteVideo",
+      { videoId },
+      { withCredentials: true }
+    );
+    if (res.data.success) {
+      navigate("/");
+    } else {
+      alert("Failed to Delete the Video");
+    }
+  };
+
   return (
     <>
       {video?.writer ? (
@@ -118,12 +131,20 @@ const DetailVideo = () => {
                   {video?.title}
                 </h1>
                 {video.writer._id === localStorage.getItem("userId") && (
-                  <button
-                    className="ml-2 px-4 py-2 bg-red-600 hover:bg-red-700 rounded-xl"
-                    onClick={() => navigate(`/video/${video._id}/update`)}
-                  >
-                    수정
-                  </button>
+                  <div className="space-x-3">
+                    <button
+                      className="ml-2 px-4 py-2 bg-red-600 hover:bg-red-700 rounded-xl"
+                      onClick={() => navigate(`/video/${video._id}/update`)}
+                    >
+                      수정
+                    </button>
+                    <button
+                      className="ml-2 px-4 py-2 bg-red-600 hover:bg-red-700 rounded-xl"
+                      onClick={deleteVideo}
+                    >
+                      삭제
+                    </button>
+                  </div>
                 )}
               </div>
               <div className="mt-4 flex justify-between items-center">

@@ -6,6 +6,8 @@ import Subscriber from "../models/Subscriber";
 import { Types } from "mongoose";
 import View from "../models/View";
 import Like from "../models/Like";
+import Comment from "../models/Comment";
+import Dislike from "../models/Dislike";
 
 export const uploadFiles = (req: Request, res: Response): Response => {
   if (req.file) {
@@ -208,6 +210,36 @@ export const getLikedVideo = async (
     }).populate("writer");
 
     return res.status(200).json({ success: true, videos });
+  } catch (err) {
+    return res.status(400).send(err);
+  }
+};
+
+export const deleteVideo = async (
+  req: Request,
+  res: Response
+): Promise<Response> => {
+  try {
+    const { videoId } = req.body;
+    await Video.findByIdAndDelete(videoId);
+
+    // Comments, Likes, views 삭제
+    const comments = await Comment.find({ videoId });
+    await Comment.deleteMany({ videoId });
+    let commentIdx: Types.ObjectId[] = [];
+    comments.map((comment, i) => {
+      commentIdx.push(comment._id);
+    });
+
+    await Like.deleteMany({
+      $or: [{ videoId }, { commentId: { $in: commentIdx } }],
+    });
+    await Dislike.deleteMany({
+      $or: [{ videoId }, { commentId: { $in: commentIdx } }],
+    });
+    await View.deleteMany({ videoId });
+
+    return res.status(200).json({ success: true });
   } catch (err) {
     return res.status(400).send(err);
   }

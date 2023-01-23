@@ -13,6 +13,7 @@ import ChangeImage from "./user/ChangeImage";
 import ChangePassword from "./user/ChangePassword";
 import LikeVideos from "./user/LikeVideos";
 import UpdateVideo from "./video/UpdateVideo";
+import CategorizedVideos from "./video/CategorizedVideos";
 
 const AuthHome = Auth(Home, null);
 const AuthLogin = Auth(Login, false);
@@ -27,6 +28,7 @@ const AuthChangeImage = Auth(ChangeImage, true);
 const AuthChangePassword = Auth(ChangePassword, true);
 const AuthLikeVideos = Auth(LikeVideos, true);
 const AuthUpdateVideo = Auth(UpdateVideo, true);
+const AuthCategorizedVideos = Auth(CategorizedVideos, null);
 
 export {
   AuthHome,
@@ -43,4 +45,5 @@ export {
   AuthChangePassword,
   AuthLikeVideos,
   AuthUpdateVideo,
+  AuthCategorizedVideos,
 };

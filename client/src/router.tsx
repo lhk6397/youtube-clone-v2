@@ -15,6 +15,7 @@ import {
   AuthChangePassword,
   AuthLikeVideos,
   AuthUpdateVideo,
+  AuthCategorizedVideos,
 } from "./views/pages/index";
 
 const router = createBrowserRouter([
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
                 element: <AuthUpdateVideo />,
               },
             ],
+          },
+          {
+            path: "category",
+            element: <AuthCategorizedVideos />,
           },
         ],
       },

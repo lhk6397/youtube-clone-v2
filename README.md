@@ -15,17 +15,18 @@
 
 <ul>
     <li>
-    To Do []
+    To Do [❌]
     <ul>
-        <li>Search Video []</li>
-        <li>Categorize []</li>
-        <li>Infinite Scroll []</li>
+        <li>Search Video [❌]</li>
+        <li>Categorize [❌]</li>
+        <li>Infinite Scroll [❌]</li>
     </ul>
     </li>
     <li>
     Done [✔]
     <ul>
         <li>Video Update [✔]</li>
+        <li>Video Delete[✔]</li>
         <li>User Profile Update [✔]</li>
         <li>Responsive Style [✔]</li>
         <li>User Login/Register/Logout [✔]</li>

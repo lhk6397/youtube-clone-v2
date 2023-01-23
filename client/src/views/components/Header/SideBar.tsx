@@ -113,7 +113,7 @@ const SideBar = () => {
           {Category.map((categoryItem, i) => (
             <li key={i}>
               <Link
-                to="#"
+                to={`/video/category?category=${categoryItem.value}`}
                 className="flex items-center py-2 text-sm font-normal text-gray-900 transition duration-75 rounded-lg hover:bg-[#272727] dark:hover:bg-[#272727] dark:text-white group"
               >
                 <RiVideoLine className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" />
