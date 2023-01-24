@@ -1,11 +1,8 @@
-import { Request, Response } from "express";
+import { asyncFunc } from "./../types/types";
 import Dislike from "../models/Dislike";
 import Like from "../models/Like";
 
-export const getLikes = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
+export const getLikes: asyncFunc = async (req, res) => {
   try {
     let variable = {};
     if (req.body.videoId) {
@@ -21,10 +18,7 @@ export const getLikes = async (
   }
 };
 
-export const getDislikes = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
+export const getDislikes: asyncFunc = async (req, res) => {
   try {
     let variable = {};
     if (req.body.videoId) {
@@ -39,10 +33,7 @@ export const getDislikes = async (
   }
 };
 
-export const upLike = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
+export const upLike: asyncFunc = async (req, res) => {
   try {
     let variable = {};
     if (req.body.videoId) {
@@ -63,10 +54,7 @@ export const upLike = async (
   }
 };
 
-export const unLike = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
+export const unLike: asyncFunc = async (req, res) => {
   try {
     let variable = {};
     if (req.body.videoId) {
@@ -82,10 +70,7 @@ export const unLike = async (
   }
 };
 
-export const upDislike = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
+export const upDislike: asyncFunc = async (req, res) => {
   try {
     let variable = {};
     if (req.body.videoId) {
@@ -105,10 +90,7 @@ export const upDislike = async (
   }
 };
 
-export const unDislike = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
+export const unDislike: asyncFunc = async (req, res) => {
   try {
     let variable = {};
     if (req.body.videoId) {

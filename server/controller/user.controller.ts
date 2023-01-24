@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
-import moment from "moment";
 import bcrypt from "bcrypt";
 import User, { UserDocument } from "../models/User";
 import "express-session";
+import { asyncFunc } from "../types/types";
 
 declare module "express-session" {
   export interface SessionData {
@@ -11,10 +11,7 @@ declare module "express-session" {
   }
 }
 
-export const register = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
+export const register: asyncFunc = async (req, res) => {
   try {
     const { username, email, password, confirmPassword } = req.body;
     const existingUser = await User.exists({
@@ -49,7 +46,7 @@ export const register = async (
   }
 };
 
-export const login = async (req: Request, res: Response): Promise<Response> => {
+export const login: asyncFunc = async (req, res) => {
   try {
     const { email, password } = req.body;
     const foundUser = await User.findOne({ email });
@@ -89,7 +86,7 @@ export const login = async (req: Request, res: Response): Promise<Response> => {
   }
 };
 
-export const auth = (req: Request, res: Response): Response | undefined => {
+export const auth = (req: Request, res: Response): Response => {
   const user = req.session?.loggedInUser;
   if (user) {
     return res.status(200).json({
@@ -102,18 +99,21 @@ export const auth = (req: Request, res: Response): Response | undefined => {
       image: user.avatarUrl,
     });
   }
-};
-
-export const logout = (req: Request, res: Response): Response | void => {
-  req.session.destroy(() => {
-    return res.status(200).json({ success: true });
+  return res.json({
+    success: false,
   });
 };
 
-export const getUserProfile = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
+export const logout = (req: Request, res: Response): Response => {
+  req.session.destroy(() => {
+    return res.status(200).json({ success: true });
+  });
+  return res.json({
+    success: false,
+  });
+};
+
+export const getUserProfile: asyncFunc = async (req, res) => {
   try {
     const user = await User.findOne({ _id: req.body.userId });
     return res.status(200).json({
@@ -125,10 +125,7 @@ export const getUserProfile = async (
   }
 };
 
-export const changePassword = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
+export const changePassword: asyncFunc = async (req, res) => {
   try {
     const { userId, password, curPassword } = req.body;
 
@@ -166,14 +163,6 @@ export const changePassword = async (
   }
 };
 
-/*
-1. client 파일 제출
-2. 백엔드 서버에 저장 + db의 user data 갱신, session.loggedInUser.image 변경-> 파일 경로 반환
-3. 파일 경로에서 이미지 읽어서 previewImage로 활용
-4. 
-
-*/
-
 export const uploadProfileImage = (req: Request, res: Response): Response => {
   if (req.file) {
     return res.json({
@@ -187,10 +176,7 @@ export const uploadProfileImage = (req: Request, res: Response): Response => {
   });
 };
 
-export const updateProfileImage = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
+export const updateProfileImage: asyncFunc = async (req, res) => {
   try {
     const { userId, filePath } = req.body;
     const user = await User.findOneAndUpdate(

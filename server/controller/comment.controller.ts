@@ -1,11 +1,7 @@
-import { Request, Response } from "express";
-import { Types } from "mongoose";
 import Comment from "../models/Comment";
+import { asyncFunc } from "../types/types";
 
-export const saveComment = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
+export const saveComment: asyncFunc = async (req, res) => {
   try {
     const comment = new Comment(req.body);
     await comment.save();
@@ -18,10 +14,7 @@ export const saveComment = async (
   }
 };
 
-export const getComments = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
+export const getComments: asyncFunc = async (req, res) => {
   try {
     const comments = await Comment.find({ videoId: req.body.videoId }).populate(
       "writer"
@@ -32,10 +25,7 @@ export const getComments = async (
   }
 };
 
-export const deleteComment = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
+export const deleteComment: asyncFunc = async (req, res) => {
   try {
     await Comment.findOneAndDelete({ _id: req.body._id });
     await Comment.deleteMany({ responseTo: req.body._id });
@@ -45,10 +35,7 @@ export const deleteComment = async (
   }
 };
 
-export const updateComment = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
+export const updateComment: asyncFunc = async (req, res) => {
   try {
     const updatedComment = await Comment.findOneAndUpdate(
       { _id: req.body.commentId },

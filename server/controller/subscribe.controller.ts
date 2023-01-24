@@ -1,12 +1,9 @@
-import { Request, Response } from "express";
 import { Types } from "mongoose";
 import Subscriber from "../models/Subscriber";
 import User from "../models/User";
+import { asyncFunc } from "../types/types";
 
-export const getSubscribeNumber = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
+export const getSubscribeNumber: asyncFunc = async (req, res) => {
   try {
     const subscribe = await Subscriber.find({ userTo: req.body.userTo });
     return res
@@ -17,10 +14,7 @@ export const getSubscribeNumber = async (
   }
 };
 
-export const getSubscribedInfo = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
+export const getSubscribedInfo: asyncFunc = async (req, res) => {
   try {
     let result = false;
     const subscribe = await Subscriber.find({
@@ -34,10 +28,7 @@ export const getSubscribedInfo = async (
   }
 };
 
-export const subscribe = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
+export const subscribe: asyncFunc = async (req, res) => {
   try {
     const subscribe = new Subscriber(req.body);
     await subscribe.save();
@@ -47,10 +38,7 @@ export const subscribe = async (
   }
 };
 
-export const unsubscribe = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
+export const unsubscribe: asyncFunc = async (req, res) => {
   try {
     await Subscriber.findOneAndDelete({
       userTo: req.body.userTo,
@@ -62,10 +50,7 @@ export const unsubscribe = async (
   }
 };
 
-export const getSubscribedUser = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
+export const getSubscribedUser: asyncFunc = async (req, res) => {
   try {
     const subscribers = await Subscriber.find({ userFrom: req.body.userFrom });
     let subscribedUserId: Types.ObjectId[] = [];

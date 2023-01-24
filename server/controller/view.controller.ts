@@ -1,10 +1,7 @@
-import { Request, Response } from "express";
 import View from "../models/View";
+import { asyncFunc } from "../types/types";
 
-export const getViews = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
+export const getViews: asyncFunc = async (req, res) => {
   try {
     const views = await View.find({ videoId: req.body.videoId });
     return res.status(200).json({ success: true, views });
@@ -13,10 +10,7 @@ export const getViews = async (
   }
 };
 
-export const updateView = async (
-  req: Request,
-  res: Response
-): Promise<Response> => {
+export const updateView: asyncFunc = async (req, res) => {
   try {
     const view = new View(req.body);
     await view.save();

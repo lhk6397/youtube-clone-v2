@@ -16,6 +16,7 @@ import {
   AuthLikeVideos,
   AuthUpdateVideo,
   AuthCategorizedVideos,
+  AuthSearchedVideos,
 } from "./views/pages/index";
 
 const router = createBrowserRouter([
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
       {
         path: "video",
         children: [
+          {
+            path: "",
+            element: <AuthSearchedVideos />,
+          },
           {
             path: "upload",
             element: <AuthUploadVideo />,

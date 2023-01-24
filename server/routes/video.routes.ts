@@ -11,6 +11,8 @@ import {
   getLikedVideo,
   updateVideo,
   deleteVideo,
+  getCategorizedVideos,
+  getSearchedVideos,
 } from "../controller/video.controller";
 import upload from "../middleware/videoMulter";
 
@@ -20,12 +22,14 @@ router.post("/uploadfiles", upload.single("file"), uploadFiles);
 router.post("/thumbnail", getThumbnail);
 router.post("/uploadVideo", uploadVideo);
 router.post("/updateVideo", updateVideo);
+router.post("/deleteVideo", deleteVideo);
 router.get("/getVideos", getVideos);
 router.post("/getVideo", getVideo);
 router.post("/getSubscriptionVideos", getSubscriptionVideos);
 router.post("/getWatchedVideos", getWatchedVideos);
 router.post("/getUserVideos", getUserVideos);
 router.post("/getLikedVideo", getLikedVideo);
-router.post("/deleteVideo", deleteVideo);
+router.post("/getCategorizedVideos", getCategorizedVideos);
+router.post("/getSearchedVideos", getSearchedVideos);
 
 export default router;
