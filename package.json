@@ -4,8 +4,10 @@
   "description": "## MERN Stack",
   "main": "index.js",
   "scripts": {
-    "build": "cd client && npm ci && npm run build && mv build ../server",
-    "start": "cd server && npm ci && ts-node index.ts",
+    "client-build": "cd client && npm ci && npm run build && cd ../",
+    "server-build": "cd server && npm ci --dev && npm run build && cd ../",
+    "build": "npm run client-build && npm run server-build && mv ./client/build ./server/dist/build",
+    "start": "cd server && npm run start",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
