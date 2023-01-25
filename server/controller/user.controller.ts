@@ -4,7 +4,6 @@ import User, { UserDocument } from "../models/User";
 import "express-session";
 import { asyncFunc } from "../types/types";
 import { uploadImageToCLD } from "../middleware/cloudinary";
-import { v2 as cloudinary } from "cloudinary";
 
 declare module "express-session" {
   export interface SessionData {

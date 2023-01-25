@@ -17,7 +17,12 @@ function Root() {
   }, [location]);
 
   return (
-    <div className={cls(isOpen ? "overflow-hidden h-screen" : "")}>
+    <div
+      className={cls(
+        "overflow-hidden",
+        isOpen ? "overflow-hidden h-screen" : ""
+      )}
+    >
       <Header />
       <div
         className={cls(

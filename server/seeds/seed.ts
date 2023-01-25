@@ -7,7 +7,6 @@ import Subscriber from "../models/Subscriber";
 import User from "../models/User";
 import Video from "../models/Video";
 import View from "../models/View";
-import fs from "fs";
 
 const seedDB = async () => {
   await connect();
@@ -18,11 +17,6 @@ const seedDB = async () => {
   await Comment.deleteMany({});
   await Like.deleteMany({});
   await Dislike.deleteMany({});
-  fs.rmdir("uploads", { recursive: true }, (err) => {
-    if (err) throw err;
-
-    console.log("Dir is deleted.");
-  });
 };
 
 seedDB().then(() => {
