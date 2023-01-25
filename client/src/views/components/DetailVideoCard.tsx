@@ -20,7 +20,7 @@ const DetailVideoCard = ({ videoWidth, video }: DetailVideoCardProps) => {
     const videoId = video._id;
     const getViews = async () => {
       const res = await axios.post(
-        "http://localhost:5000/api/view/getViews",
+        "/api/view/getViews",
         { videoId },
         {
           withCredentials: true,
@@ -42,7 +42,7 @@ const DetailVideoCard = ({ videoWidth, video }: DetailVideoCardProps) => {
           <div className="w-full mt-2 cursor-pointer transition-all flex space-x-2 hover:scale-105 hover:border hover:rounded-md">
             <div className="relative overflow-hidden">
               <img
-                src={`http://localhost:5000/${video.thumbnail}`}
+                src={video.thumbnail}
                 alt="thumbnail"
                 className={cls(
                   "rounded-md shadow-sm bg-slate-300 aspect-video",

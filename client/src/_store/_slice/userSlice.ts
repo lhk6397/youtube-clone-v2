@@ -13,7 +13,7 @@ export const loginUser = createAsyncThunk(
   "userSlice/loginUser",
   async (dataSubmit: LoginForm) => {
     return axios
-      .post("http://localhost:5000/api/user/login", dataSubmit, {
+      .post("/api/user/login", dataSubmit, {
         withCredentials: true,
       })
       .then((response) => response.data)
@@ -25,7 +25,7 @@ export const registerUser = createAsyncThunk(
   "userSlice/registerUser",
   async (dataSubmit: RegisterForm) => {
     return axios
-      .post("http://localhost:5000/api/user/register", dataSubmit, {
+      .post("/api/user/register", dataSubmit, {
         withCredentials: true,
       })
       .then((response) => response.data)
@@ -35,7 +35,7 @@ export const registerUser = createAsyncThunk(
 
 export const authUser = createAsyncThunk("userSlice/authUser", async () => {
   return axios
-    .get("http://localhost:5000/api/user/auth", { withCredentials: true })
+    .get("/api/user/auth", { withCredentials: true })
     .then((response) => response.data)
     .catch((error) => console.log(error));
 });
@@ -43,9 +43,8 @@ export const authUser = createAsyncThunk("userSlice/authUser", async () => {
 export const updateProfileImage = createAsyncThunk(
   "userSlice/updateProfileImage",
   async (variable: any) => {
-    console.log(variable);
     return axios
-      .post("http://localhost:5000/api/user/updateProfileImage", variable, {
+      .post("/api/user/updateProfileImage", variable, {
         withCredentials: true,
       })
       .then((response) => response.data)

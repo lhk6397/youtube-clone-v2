@@ -3,6 +3,8 @@ import bcrypt from "bcrypt";
 import User, { UserDocument } from "../models/User";
 import "express-session";
 import { asyncFunc } from "../types/types";
+import { uploadImageToCLD } from "../middleware/cloudinary";
+import { v2 as cloudinary } from "cloudinary";
 
 declare module "express-session" {
   export interface SessionData {
@@ -28,7 +30,8 @@ export const register: asyncFunc = async (req, res) => {
       username,
       email,
       password,
-      avatarUrl: "assets/images/defaultProfileImage.png",
+      avatarUrl:
+        "https://res.cloudinary.com/dhtb9zwz6/image/upload/v1674657033/YoutubeClone/profileImage/defaultProfileImage_voz8ay.png",
     });
     req.session.loggedInUser = user;
     req.session.isLoggedIn = true;
@@ -104,12 +107,9 @@ export const auth = (req: Request, res: Response): Response => {
   });
 };
 
-export const logout = (req: Request, res: Response): Response => {
+export const logout = (req: Request, res: Response): Response | void => {
   req.session.destroy(() => {
     return res.status(200).json({ success: true });
-  });
-  return res.json({
-    success: false,
   });
 };
 
@@ -163,13 +163,18 @@ export const changePassword: asyncFunc = async (req, res) => {
   }
 };
 
-export const uploadProfileImage = (req: Request, res: Response): Response => {
+export const uploadProfileImage: asyncFunc = async (req, res) => {
   if (req.file) {
-    return res.json({
-      success: true,
-      filePath: req?.file.path,
-      fileName: req?.file.filename,
-    });
+    const b64 = Buffer.from(req.file.buffer).toString("base64");
+    let dataURI = "data:" + req.file.mimetype + ";base64," + b64;
+    const cldRes = await uploadImageToCLD(dataURI);
+    if (cldRes) {
+      return res.json({
+        success: true,
+        filePath: cldRes.path,
+        fileName: cldRes.publicId,
+      });
+    }
   }
   return res.json({
     success: false,
@@ -179,6 +184,7 @@ export const uploadProfileImage = (req: Request, res: Response): Response => {
 export const updateProfileImage: asyncFunc = async (req, res) => {
   try {
     const { userId, filePath } = req.body;
+
     const user = await User.findOneAndUpdate(
       { _id: userId },
       { avatarUrl: filePath },

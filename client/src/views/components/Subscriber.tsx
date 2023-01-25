@@ -19,7 +19,7 @@ const Subscriber = ({ userTo, userFrom }: SubscriberProps) => {
 
     if (subscribed) {
       const res = await axios.post(
-        "http://localhost:5000/api/subscribe/unsubscribe",
+        "/api/subscribe/unsubscribe",
         subscribeVariable,
         { withCredentials: true }
       );
@@ -32,7 +32,7 @@ const Subscriber = ({ userTo, userFrom }: SubscriberProps) => {
       }
     } else {
       const res = await axios.post(
-        "http://localhost:5000/api/subscribe/subscribe",
+        "/api/subscribe/subscribe",
         subscribeVariable,
         { withCredentials: true }
       );
@@ -53,7 +53,7 @@ const Subscriber = ({ userTo, userFrom }: SubscriberProps) => {
 
     const getSubscribeNumber = async () => {
       const res = await axios.post(
-        "http://localhost:5000/api/subscribe/subscribeNumber",
+        "/api/subscribe/subscribeNumber",
         subscribeNumberVariables,
         { withCredentials: true }
       );
@@ -66,7 +66,7 @@ const Subscriber = ({ userTo, userFrom }: SubscriberProps) => {
 
     const getSubscribedInfo = async () => {
       const res = await axios.post(
-        "http://localhost:5000/api/subscribe/subscribed",
+        "/api/subscribe/subscribed",
         subscribeNumberVariables,
         { withCredentials: true }
       );

@@ -12,7 +12,7 @@ const Profile = () => {
   useEffect(() => {
     const getUserProfile = async () => {
       const res = await axios.post(
-        "http://localhost:5000/api/user/getUserProfile",
+        "/api/user/getUserProfile",
         { userId },
         { withCredentials: true }
       );
@@ -23,10 +23,7 @@ const Profile = () => {
       }
     };
     const getUserVideos = async () => {
-      const response = await axios.post(
-        "http://localhost:5000/api/video/getUserVideos",
-        { userId }
-      );
+      const response = await axios.post("/api/video/getUserVideos", { userId });
       if (response.data.success) {
         setVideos(response.data.videos);
       } else {
@@ -36,7 +33,7 @@ const Profile = () => {
 
     const getSubscribeNumber = async () => {
       const res = await axios.post(
-        "http://localhost:5000/api/subscribe/subscribeNumber",
+        "/api/subscribe/subscribeNumber",
         { userTo: userId },
         { withCredentials: true }
       );
@@ -59,7 +56,7 @@ const Profile = () => {
           <div className="flex space-x-6">
             <img
               className="w-20 aspect-square bg-gray-400 rounded-full"
-              src={`http://localhost:5000/${user.avatarUrl}`}
+              src={user.avatarUrl}
               alt="avatar"
             />
             <div className="flex flex-col space-y-1">

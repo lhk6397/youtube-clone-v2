@@ -17,7 +17,6 @@ const ChangeImage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const user = useSelector((state: RootState) => state.user);
   const [filePath, setFilePath] = useState("");
-  // const [thumbnail, setThumbnail] = useState("");
 
   const onValid = async (data: ProfileImageUploadForm): Promise<void> => {
     if (data.profileImage === "" || filePath === "") {
@@ -30,7 +29,6 @@ const ChangeImage = () => {
     };
 
     const res = await dispatch(updateProfileImage(variable));
-    console.log(res.payload);
     if (res.payload.success) {
       alert("Profile Image updated Successfully");
       navigate("/");
@@ -52,17 +50,12 @@ const ChangeImage = () => {
       formData.append("file", file);
 
       const response = await axios.post(
-        "http://localhost:5000/api/user/uploadProfileImage",
+        "/api/user/uploadProfileImage",
         formData,
         config
       );
 
       if (response.data.success) {
-        const variable = {
-          filePath: response.data.filePath,
-          fileName: response.data.fileName,
-        };
-        console.log(variable);
         setFilePath(response.data.filePath);
       } else {
         alert("Failed to save the profile image in server");
@@ -77,7 +70,7 @@ const ChangeImage = () => {
         {filePath !== "" ? (
           <div className="mb-5 flex flex-col items-center space-y-5">
             <img
-              src={`http://localhost:5000/${filePath}`}
+              src={filePath}
               className="shadow-2xl border border-white border-dashed p-3 w-48 aspect-square rounded-full overflow-hidden"
               alt="filePath"
             />

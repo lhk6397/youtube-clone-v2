@@ -26,11 +26,9 @@ const SingleComment = ({ comment, refreshFunc }: SingleCommentProps) => {
   const user = useSelector((state: RootState) => state.user);
 
   const deleteComment = async () => {
-    const res = await axios.post(
-      "http://localhost:5000/api/comment/deleteComment",
-      comment,
-      { withCredentials: true }
-    );
+    const res = await axios.post("/api/comment/deleteComment", comment, {
+      withCredentials: true,
+    });
     if (res.data.success) {
       refreshFunc("delete", comment);
     } else {
@@ -40,7 +38,7 @@ const SingleComment = ({ comment, refreshFunc }: SingleCommentProps) => {
 
   const updateComment = async () => {
     const res = await axios.post(
-      "http://localhost:5000/api/comment/updateComment",
+      "/api/comment/updateComment",
       { commentId: comment._id, content },
       { withCredentials: true }
     );
@@ -85,7 +83,7 @@ const SingleComment = ({ comment, refreshFunc }: SingleCommentProps) => {
           <Link to={`/user/${comment.writer._id}`}>
             <img
               className="w-10 h-10 bg-gray-400 rounded-full"
-              src={`http://localhost:5000/${comment.writer.avatarUrl}`}
+              src={comment.writer.avatarUrl}
               alt="avatar"
             />
           </Link>
@@ -197,7 +195,7 @@ const SingleComment = ({ comment, refreshFunc }: SingleCommentProps) => {
         <div className="ml-10 flex items-start my-4">
           <img
             className="w-10 aspect-square bg-gray-400 rounded-full"
-            src={`http://localhost:5000/${user.userData.image}`}
+            src={user.userData.image}
             alt="avatar"
           />
           <form className="flex flex-col w-full" onSubmit={onSubmit}>

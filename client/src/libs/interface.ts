@@ -20,6 +20,7 @@ export interface IVideo {
   thumbnail: string;
   createdAt: number;
   updatedAt?: any;
+  fileName: string;
   __v?: number;
 }
 

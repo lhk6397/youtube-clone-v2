@@ -1,7 +1,7 @@
 import express, { Router } from "express";
 import {
   uploadFiles,
-  getThumbnail,
+  // getThumbnail,
   uploadVideo,
   getVideos,
   getVideo,
@@ -14,12 +14,11 @@ import {
   getCategorizedVideos,
   getSearchedVideos,
 } from "../controller/video.controller";
+// import upload from "../middleware/videoMulter";
 import upload from "../middleware/videoMulter";
-
 const router: Router = express.Router();
 
 router.post("/uploadfiles", upload.single("file"), uploadFiles);
-router.post("/thumbnail", getThumbnail);
 router.post("/uploadVideo", uploadVideo);
 router.post("/updateVideo", updateVideo);
 router.post("/deleteVideo", deleteVideo);

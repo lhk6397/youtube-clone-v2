@@ -14,10 +14,9 @@ const SearchedVideos = () => {
 
   useEffect(() => {
     const getSearchedVideos = async () => {
-      const response = await axios.post(
-        "http://localhost:5000/api/video/getSearchedVideos",
-        { search }
-      );
+      const response = await axios.post("/api/video/getSearchedVideos", {
+        search,
+      });
       if (response.data.success) {
         setVideos(response.data.searchedVideos);
       } else {

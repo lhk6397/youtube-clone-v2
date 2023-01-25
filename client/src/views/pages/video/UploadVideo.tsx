@@ -18,9 +18,11 @@ const UploadVideo = () => {
   } = useForm<VideoUploadForm>();
   const navigate = useNavigate();
   const user = useSelector((state: RootState) => state.user);
+  const [fileName, setFileName] = useState("");
   const [filePath, setFilePath] = useState("");
   const [duration, setDuration] = useState("");
   const [thumbnail, setThumbnail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const onValid = async (data: VideoUploadForm): Promise<void> => {
     if (
@@ -41,12 +43,10 @@ const UploadVideo = () => {
       category: data.category,
       duration,
       thumbnail,
+      fileName,
     };
 
-    const res = await axios.post(
-      "http://localhost:5000/api/video/uploadVideo",
-      variable
-    );
+    const res = await axios.post("/api/video/uploadVideo", variable);
     if (res.data.success) {
       alert("Video uploaded Successfully");
       navigate("/");
@@ -56,6 +56,7 @@ const UploadVideo = () => {
   };
 
   const uploadFiles = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    setIsLoading(true);
     const target = e.currentTarget;
     const files = (target.files as FileList)[0];
     if (files) {
@@ -68,25 +69,16 @@ const UploadVideo = () => {
       };
       formData.append("file", files);
       const response = await axios.post(
-        "http://localhost:5000/api/video/uploadfiles",
+        "/api/video/uploadfiles",
         formData,
         config
       );
       if (response.data.success) {
-        if (response.data.success) {
-          const variable = {
-            filePath: response.data.filePath,
-            fileName: response.data.fileName,
-          };
-          setFilePath(response.data.filePath);
-          const res = await axios.post("/api/video/thumbnail", variable);
-          if (res.data.success) {
-            setDuration(res.data.fileDuration);
-            setThumbnail(res.data.thumbsFilePath);
-          } else {
-            alert("Failed to make the thumbnail");
-          }
-        }
+        setIsLoading(false);
+        setFilePath(response.data.filePath);
+        setFileName(response.data.fileName);
+        setDuration(response.data.duration);
+        setThumbnail(response.data.thumbnail);
       } else {
         alert("Failed to save the video in server");
       }
@@ -98,47 +90,53 @@ const UploadVideo = () => {
       className="px-4 py-16 space-y-3 sm:w-screen sm:max-w-[50vw] mx-auto"
       onSubmit={handleSubmit(onValid)}
     >
-      {thumbnail !== "" ? (
-        <div className="mb-5 flex flex-col items-center space-y-5">
-          <h1 className="text-3xl font-bold">Thumbnail</h1>
-          <img
-            src={`http://localhost:5000/${thumbnail}`}
-            className="shadow-2xl border border-white border-dashed p-3"
-            alt="thumbnail"
-          />
-        </div>
+      {isLoading ? (
+        <div className="text-center text-2xl font-bold p-20">Loading ...</div>
       ) : (
-        <div className="mb-5">
-          <label
-            htmlFor="video"
-            className="w-full flex items-center justify-center border-2 border-dashed border-gray-300 py-6 h-48 rounded-md text-gray-600 hover:text-red-600 hover:border-red-600 cursor-pointer"
-          >
-            <svg
-              className="h-12 w-12"
-              stroke="currentColor"
-              fill="none"
-              viewBox="0 0 48 48"
-              aria-hidden="true"
-            >
-              <path
-                d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                strokeWidth={2}
-                strokeLinecap="round"
-                strokeLinejoin="round"
+        <>
+          {thumbnail !== "" ? (
+            <div className="mb-5 flex flex-col items-center space-y-5">
+              <h1 className="text-3xl font-bold">Thumbnail</h1>
+              <img
+                src={thumbnail}
+                className="shadow-2xl border border-white border-dashed p-3"
+                alt="thumbnail"
               />
-            </svg>
-          </label>
-          <input
-            id="video"
-            className="hidden"
-            type="file"
-            accept="video/*"
-            {...register("video", {
-              required: "Video is required",
-            })}
-            onChange={uploadFiles}
-          />
-        </div>
+            </div>
+          ) : (
+            <div className="mb-5">
+              <label
+                htmlFor="video"
+                className="w-full flex items-center justify-center border-2 border-dashed border-gray-300 py-6 h-48 rounded-md text-gray-600 hover:text-red-600 hover:border-red-600 cursor-pointer"
+              >
+                <svg
+                  className="h-12 w-12"
+                  stroke="currentColor"
+                  fill="none"
+                  viewBox="0 0 48 48"
+                  aria-hidden="true"
+                >
+                  <path
+                    d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                    strokeWidth={2}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </label>
+              <input
+                id="video"
+                className="hidden"
+                type="file"
+                accept="video/*"
+                {...register("video", {
+                  required: "Video is required",
+                })}
+                onChange={uploadFiles}
+              />
+            </div>
+          )}
+        </>
       )}
       <label htmlFor="title" className="mb-1 block text-sm font-medium">
         Title

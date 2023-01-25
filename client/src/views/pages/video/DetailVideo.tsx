@@ -24,7 +24,7 @@ const DetailVideo = () => {
   useEffect(() => {
     const updateViews = async () => {
       const viewRes = await axios.post(
-        "http://localhost:5000/api/view/updateView",
+        "/api/view/updateView",
         { videoId, userId },
         { withCredentials: true }
       );
@@ -37,7 +37,7 @@ const DetailVideo = () => {
 
     const getVideo = async () => {
       const res = await axios.post(
-        "http://localhost:5000/api/video/getVideo",
+        "/api/video/getVideo",
         { videoId },
         { withCredentials: true }
       );
@@ -49,7 +49,7 @@ const DetailVideo = () => {
     };
 
     const getRecommendedVideos = async () => {
-      const res = await axios.get("http://localhost:5000/api/video/getVideos", {
+      const res = await axios.get("/api/video/getVideos", {
         withCredentials: true,
       });
       if (res.data.success) {
@@ -61,7 +61,7 @@ const DetailVideo = () => {
 
     const getComments = async () => {
       const res = await axios.post(
-        "http://localhost:5000/api/comment/getComments",
+        "/api/comment/getComments",
         { videoId },
         { withCredentials: true }
       );
@@ -82,7 +82,6 @@ const DetailVideo = () => {
     if (type === "create") {
       setComments(comments.concat(comment));
     } else if (type === "delete") {
-      console.log("delete");
       setComments(
         comments.filter(
           (ccomment) =>
@@ -103,12 +102,13 @@ const DetailVideo = () => {
 
   const deleteVideo = async () => {
     const res = await axios.post(
-      "http://localhost:5000/api/video/deleteVideo",
-      { videoId },
+      "/api/video/deleteVideo",
+      { videoId, fileName: video?.fileName },
       { withCredentials: true }
     );
     if (res.data.success) {
       navigate("/");
+      alert("Success to Delete the Video!");
     } else {
       alert("Failed to Delete the Video");
     }
@@ -121,7 +121,7 @@ const DetailVideo = () => {
           <div className="lg:w-2/3 pb-3">
             <video
               className="w-full rounded-md shadow-sm bg-slate-300 aspect-video "
-              src={`http://localhost:5000/${video?.filePath}`}
+              src={video?.filePath}
               controls
             ></video>
 
@@ -151,7 +151,7 @@ const DetailVideo = () => {
                 <div className="flex space-x-4 items-center">
                   <Link to={`/user/${video.writer._id}`}>
                     <img
-                      src={`http://localhost:5000/${video?.writer.avatarUrl}`}
+                      src={video?.writer.avatarUrl}
                       alt="avatar"
                       className="w-10 h-10 bg-gray-400 rounded-full"
                     />

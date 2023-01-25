@@ -27,3 +27,10 @@
     <li>Like/Dislike</li>
     <li>Comment</li>
 </ul>
+
+## Security
+
+<ul>
+    <li>Prevent Mongo SQL Injection</li>
+    <li>Helmet</li>
+</ul>

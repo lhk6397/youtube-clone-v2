@@ -35,7 +35,7 @@ const Header = () => {
   }, [location.pathname]);
 
   const logoutHandler = async () => {
-    const response = await axios.get("http://localhost:5000/api/user/logout", {
+    const response = await axios.get("/api/user/logout", {
       withCredentials: true,
     });
     if (response.data.success) {
@@ -80,7 +80,7 @@ const Header = () => {
           {user && user?.userData?.isAuth ? (
             <div className="relative ">
               <img
-                src={`http://localhost:5000/${user.userData.image}`}
+                src={user.userData.image}
                 alt="avatar"
                 className="rounded-full bg-slate-400 w-7 h-7 cursor-pointer"
                 onClick={() => setAvatarClicked((curr) => !curr)}
@@ -89,7 +89,7 @@ const Header = () => {
                 <section className="w-64 absolute bg-[#282828] text-base z-50 list-none text-left rounded-lg shadow-lg border-none right-0 divide-gray-700 divide-y-[0.5px] overflow-hidden">
                   <div className="px-4 flex items-start space-x-3 py-4">
                     <img
-                      src={`http://localhost:5000/${user.userData.image}`}
+                      src={user.userData.image}
                       alt="avatar"
                       className="w-10 aspect-square bg-gray-400 rounded-full cursor-pointer"
                       onClick={() => setAvatarClicked((curr) => !curr)}
@@ -107,7 +107,7 @@ const Header = () => {
                     <li>
                       <Link
                         to={`/user/${user.userData._id}`}
-                        className="text-sm py-2 px-4 font-normal whitespace-nowrap bg-transparent text-white hover:bg-[#3E3E3E] flex items-center space-x-4"
+                        className="cursor-pointer text-sm py-2 px-4 font-normal whitespace-nowrap bg-transparent text-white hover:bg-[#3E3E3E] flex items-center space-x-4"
                       >
                         <BiUserPin className="flex-shrink-0 w-6 h-6" />
                         <span>내 채널</span>
@@ -115,7 +115,7 @@ const Header = () => {
                     </li>
                     <li>
                       <div
-                        className="text-sm py-2 px-4 font-normal whitespace-nowrap bg-transparent text-white hover:bg-[#3E3E3E] flex items-center space-x-4"
+                        className="cursor-pointer text-sm py-2 px-4 font-normal whitespace-nowrap bg-transparent text-white hover:bg-[#3E3E3E] flex items-center space-x-4"
                         onClick={logoutHandler}
                       >
                         <MdOutlineLogout className="flex-shrink-0 w-6 h-6" />
@@ -125,7 +125,7 @@ const Header = () => {
                     <li>
                       <Link
                         to="/user/update"
-                        className="text-sm py-2 px-4 font-normal whitespace-nowrap bg-transparent text-white hover:bg-[#3E3E3E] flex items-center space-x-4"
+                        className="cursor-pointer text-sm py-2 px-4 font-normal whitespace-nowrap bg-transparent text-white hover:bg-[#3E3E3E] flex items-center space-x-4"
                       >
                         <IoSettingsOutline className="flex-shrink-0 w-6 h-6" />
                         <span>계정</span>

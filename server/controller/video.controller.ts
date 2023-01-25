@@ -1,5 +1,3 @@
-import { Request, response, Response } from "express";
-import ffmpeg from "fluent-ffmpeg";
 import Video from "../models/Video";
 import Subscriber from "../models/Subscriber";
 import { Types } from "mongoose";
@@ -9,40 +7,29 @@ import Comment from "../models/Comment";
 import Dislike from "../models/Dislike";
 import { asyncFunc } from "../types/types";
 import User from "../models/User";
+import { uploadVideoToCLD } from "../middleware/cloudinary";
+import { v2 as cloudinary } from "cloudinary";
 
-export const uploadFiles = (req: Request, res: Response): Response => {
+export const uploadFiles: asyncFunc = async (req, res) => {
   if (req.file) {
-    return res.json({
-      success: true,
-      filePath: req?.file.path,
-      fileName: req?.file.filename,
-    });
+    const b64 = Buffer.from(req.file.buffer).toString("base64");
+    let dataURI = "data:" + req.file.mimetype + ";base64," + b64;
+    const cldRes = await uploadVideoToCLD(dataURI);
+    if (cldRes) {
+      const thumbnail = cloudinary.url(cldRes.publicId + ".jpg", {
+        resource_type: "video",
+        transformation: { height: 240, width: 320, crop: "fill" },
+      });
+      return res.json({
+        success: true,
+        filePath: cldRes.path,
+        fileName: cldRes.publicId,
+        thumbnail,
+        duration: cldRes.duration,
+      });
+    }
   }
   return res.json({ success: false });
-};
-
-export const getThumbnail = (req: Request, res: Response): Response | void => {
-  let thumbsFilePath = "";
-  let fileDuration: number;
-
-  ffmpeg.ffprobe(req.body.filePath, (err, metaData) => {
-    fileDuration = metaData.format.duration ?? 0;
-  });
-
-  ffmpeg(req.body.filePath)
-    .on("filenames", function (filenames) {
-      thumbsFilePath = "uploads/thumbnails/" + filenames[0];
-    })
-    .on("end", function () {
-      return res.json({ success: true, thumbsFilePath, fileDuration });
-    })
-    .screenshots({
-      count: 1,
-      folder: "uploads/thumbnails",
-      size: "320x240",
-      // %b input basename ( filename w/o extension )
-      filename: "thumbnail-%b.png",
-    });
 };
 
 export const uploadVideo: asyncFunc = async (req, res) => {
@@ -194,9 +181,12 @@ export const getLikedVideo: asyncFunc = async (req, res) => {
 
 export const deleteVideo: asyncFunc = async (req, res) => {
   try {
-    const { videoId } = req.body;
+    const { videoId, fileName } = req.body;
+    await cloudinary.uploader.destroy(fileName, {
+      invalidate: true,
+      resource_type: "video",
+    });
     await Video.findByIdAndDelete(videoId);
-
     // Comments, Likes, views 삭제
     const comments = await Comment.find({ videoId });
     await Comment.deleteMany({ videoId });

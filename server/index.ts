@@ -1,5 +1,6 @@
+import mongoSanitize from "express-mongo-sanitize";
 import connect from "./db";
-import fs from "fs";
+// import fs from "fs";
 import { Request, Response } from "express";
 import cors from "cors";
 import express, { Express } from "express";
@@ -12,49 +13,59 @@ import viewRouter from "./routes/view.routes";
 import subscribeRouter from "./routes/subscribe.routes";
 import commentRouter from "./routes/comment.routes";
 import likeRouter from "./routes/like.routes";
-
+const config = require("./config/key");
 const app: Express = express();
 
-try {
-  fs.readdirSync("uploads");
-} catch (err) {
-  console.error("uploads 폴더가 없습니다. 폴더를 생성합니다.");
-  fs.mkdirSync("uploads");
-}
+// try {
+//   fs.readdirSync("uploads");
+// } catch (err) {
+//   console.error("uploads 폴더가 없습니다. 폴더를 생성합니다.");
+//   fs.mkdirSync("uploads");
+// }
 
-try {
-  fs.readdirSync("uploads/thumbnails");
-} catch (err) {
-  console.error("uploads/thumbnails 폴더가 없습니다. 폴더를 생성합니다.");
-  fs.mkdirSync("uploads/thumbnails");
-}
+// try {
+//   fs.readdirSync("uploads/thumbnails");
+// } catch (err) {
+//   console.error("uploads/thumbnails 폴더가 없습니다. 폴더를 생성합니다.");
+//   fs.mkdirSync("uploads/thumbnails");
+// }
 
-try {
-  fs.readdirSync("uploads/profileImage");
-} catch (err) {
-  console.error("uploads/profileImage 폴더가 없습니다. 폴더를 생성합니다.");
-  fs.mkdirSync("uploads/profileImage");
-}
+// try {
+//   fs.readdirSync("uploads/profileImage");
+// } catch (err) {
+//   console.error("uploads/profileImage 폴더가 없습니다. 폴더를 생성합니다.");
+//   fs.mkdirSync("uploads/profileImage");
+// }
 
 require("dotenv").config();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.use(mongoSanitize());
 app.use(flash());
 app.use(
   cors({
     origin: "http://localhost:3000",
-    methods: ["GET", "POST"],
     credentials: true,
   })
 );
 app.use("/uploads", express.static("uploads"));
 app.use("/assets", express.static("assets"));
+
+const store = new MongoStore({
+  mongoUrl: config.mongoURI as string,
+  touchAfter: 24 * 60 * 60,
+});
+
+store.on("error", function (e) {
+  console.log("SESSION STORE ERROR", e);
+});
+
 app.use(
   session({
-    secret: process.env.COOKIE_SECRET as string,
+    secret: (process.env.COOKIE_SECRET as string) || "secret",
     resave: false,
     saveUninitialized: false,
-    store: MongoStore.create({ mongoUrl: process.env.DATABASE_URL as string }),
+    store,
     cookie: {
       httpOnly: false,
       maxAge: 1000 * 60 * 60 * 24 * 7,

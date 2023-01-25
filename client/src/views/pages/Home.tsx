@@ -8,9 +8,7 @@ const Home = () => {
 
   useEffect(() => {
     const getVideos = async () => {
-      const response = await axios.get(
-        "http://localhost:5000/api/video/getVideos"
-      );
+      const response = await axios.get("/api/video/getVideos");
       if (response.data.success) {
         setVideos(response.data.videos);
       } else {

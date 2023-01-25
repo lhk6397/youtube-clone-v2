@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { BiArrowBack } from "react-icons/bi";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 const SearchInput = () => {
+  const location = useLocation();
   const navigate = useNavigate();
   const [searchValue, setSearchValue] = useState("");
   const [isSearching, setIsSearching] = useState(false);
@@ -26,7 +27,7 @@ const SearchInput = () => {
         return setIsSearching(false);
       }
     }
-  }, [windowSize]);
+  }, [windowSize, location]);
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

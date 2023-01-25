@@ -19,7 +19,7 @@ const SideBar = () => {
   useEffect(() => {
     const getSubsribedUser = async () => {
       const res = await axios.post(
-        "http://localhost:5000/api/subscribe/getSubscribedUser",
+        "/api/subscribe/getSubscribedUser",
         { userFrom: userId },
         { withCredentials: true }
       );
@@ -100,7 +100,7 @@ const SideBar = () => {
                 >
                   <img
                     className="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white rounded-full"
-                    src={`http://localhost:5000/${subscribedUser.avatarUrl}`}
+                    src={subscribedUser.avatarUrl}
                     alt="avatar"
                   />
                   <span className="ml-3">{subscribedUser.username}</span>

@@ -28,11 +28,9 @@ const Comment = ({ commentLists, refreshFunc }: CommentProps) => {
       videoId,
     };
 
-    const res = await axios.post(
-      "http://localhost:5000/api/comment/saveComment",
-      variables,
-      { withCredentials: true }
-    );
+    const res = await axios.post("/api/comment/saveComment", variables, {
+      withCredentials: true,
+    });
     if (res.data.success) {
       setComment("");
       setIsFocus(false);
@@ -49,7 +47,7 @@ const Comment = ({ commentLists, refreshFunc }: CommentProps) => {
       <div className="flex items-start my-6">
         <img
           className="w-11 aspect-square bg-gray-400 rounded-full"
-          src={`http://localhost:5000/${user?.userData?.image}`}
+          src={user?.userData?.image}
           alt="avatar"
         />
         <form className="flex flex-col w-full" onSubmit={onSubmit}>

@@ -11,6 +11,7 @@ export interface VideoDocument extends Document {
   duration: string;
   thumbnail: string;
   createdAt: number;
+  fileName: string;
   __v?: number;
 }
 
@@ -43,6 +44,7 @@ const videoSchema = new Schema<VideoDocument>({
     type: Number,
     default: () => Date.now(),
   },
+  fileName: String,
 });
 
 const Video = model<VideoDocument>("Video", videoSchema);

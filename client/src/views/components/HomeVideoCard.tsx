@@ -17,7 +17,7 @@ const HomeVideoCard = ({ video, videoWidth }: HomeVideoCardProps) => {
     const videoId = video._id;
     const getViews = async () => {
       const res = await axios.post(
-        "http://localhost:5000/api/view/getViews",
+        "/api/view/getViews",
         { videoId },
         {
           withCredentials: true,
@@ -44,7 +44,7 @@ const HomeVideoCard = ({ video, videoWidth }: HomeVideoCardProps) => {
         <div className="relative">
           <img
             className="w-full rounded-md shadow-sm bg-slate-300 aspect-video group-hover:rounded-b-none"
-            src={`http://localhost:5000/${video.thumbnail}`}
+            src={video.thumbnail}
             alt="thumbnail"
           />
           <span className="absolute bottom-[1px] right-0.5 px-1 bg-black text-white text-xs">
@@ -53,7 +53,7 @@ const HomeVideoCard = ({ video, videoWidth }: HomeVideoCardProps) => {
         </div>
         <div className="mt-4 flex space-x-4">
           <img
-            src={`http://localhost:5000/${video.writer.avatarUrl}`}
+            src={video.writer.avatarUrl}
             alt="avatar"
             className="w-10 h-10 bg-gray-400 rounded-full"
           />
