@@ -28,9 +28,13 @@ const Comment = ({ commentLists, refreshFunc }: CommentProps) => {
       videoId,
     };
 
-    const res = await axios.post("/api/comment/saveComment", variables, {
-      withCredentials: true,
-    });
+    const res = await axios.post(
+      `${process.env.REACT_APP_API_URL}/api/comment/saveComment`,
+      variables,
+      {
+        withCredentials: true,
+      }
+    );
     if (res.data.success) {
       setComment("");
       setIsFocus(false);

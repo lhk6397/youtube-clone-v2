@@ -51,9 +51,13 @@ const LikeDislikes = ({
 
   useEffect(() => {
     const getLikes = async () => {
-      const res = await axios.post("/api/like/getLikes", variable, {
-        withCredentials: true,
-      });
+      const res = await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/like/getLikes`,
+        variable,
+        {
+          withCredentials: true,
+        }
+      );
       if (res.data.success) {
         // How many likes does this video or comment have
         setLikes(res.data.likes.length);
@@ -68,9 +72,13 @@ const LikeDislikes = ({
     };
 
     const getDislikes = async () => {
-      const res = await axios.post("/api/like/getDislikes", variable, {
-        withCredentials: true,
-      });
+      const res = await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/like/getDislikes`,
+        variable,
+        {
+          withCredentials: true,
+        }
+      );
       if (res.data.success) {
         // How many likes does this video or comment have
         setDislikes(res.data.dislikes.length);
@@ -90,7 +98,10 @@ const LikeDislikes = ({
 
   const onLike = async () => {
     if (likeAction === "") {
-      const res = await axios.post("/api/like/upLike", variable);
+      const res = await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/like/upLike`,
+        variable
+      );
       if (res.data.success) {
         setLikes((curr) => curr + 1);
         setLikeAction("liked");
@@ -104,7 +115,10 @@ const LikeDislikes = ({
         alert("Failed to increase the like");
       }
     } else {
-      const res = await axios.post("/api/like/unLike", variable);
+      const res = await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/like/unLike`,
+        variable
+      );
       if (res.data.success) {
         setLikes((curr) => curr - 1);
         setLikeAction("");
@@ -116,7 +130,10 @@ const LikeDislikes = ({
 
   const onDisLike = async () => {
     if (dislikeAction === "") {
-      const res = await axios.post("/api/like/upDisLike", variable);
+      const res = await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/like/upDisLike`,
+        variable
+      );
       if (res.data.success) {
         setDislikes((curr) => curr + 1);
         setDislikeAction("disliked");
@@ -130,7 +147,10 @@ const LikeDislikes = ({
         alert("Failed to increase the dislike");
       }
     } else {
-      const res = await axios.post("/api/like/unDisLike", variable);
+      const res = await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/like/unDisLike`,
+        variable
+      );
       if (res.data.success) {
         setDislikes((curr) => curr - 1);
         setDislikeAction("");

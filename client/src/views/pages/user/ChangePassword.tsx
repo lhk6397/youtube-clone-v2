@@ -26,7 +26,7 @@ const ChangePassword = () => {
     }
 
     const response = await axios.post(
-      "/api/user/changePassword",
+      `${process.env.REACT_APP_API_URL}/api/user/changePassword`,
       { ...data, userId: localStorage.getItem("userId") },
       { withCredentials: true }
     );

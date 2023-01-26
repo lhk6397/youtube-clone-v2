@@ -16,9 +16,12 @@ const CategorizedVideos = () => {
 
   useEffect(() => {
     const getCategorizedVideos = async () => {
-      const response = await axios.post("/api/video/getCategorizedVideos", {
-        category: categoryItem?.label,
-      });
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/video/getCategorizedVideos`,
+        {
+          category: categoryItem?.label,
+        }
+      );
       if (response.data.success) {
         setVideos(response.data.categorizedVideos);
       } else {

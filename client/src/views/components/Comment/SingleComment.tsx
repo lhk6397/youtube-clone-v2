@@ -26,9 +26,13 @@ const SingleComment = ({ comment, refreshFunc }: SingleCommentProps) => {
   const user = useSelector((state: RootState) => state.user);
 
   const deleteComment = async () => {
-    const res = await axios.post("/api/comment/deleteComment", comment, {
-      withCredentials: true,
-    });
+    const res = await axios.post(
+      `${process.env.REACT_APP_API_URL}/api/comment/deleteComment`,
+      comment,
+      {
+        withCredentials: true,
+      }
+    );
     if (res.data.success) {
       refreshFunc("delete", comment);
     } else {
@@ -38,7 +42,7 @@ const SingleComment = ({ comment, refreshFunc }: SingleCommentProps) => {
 
   const updateComment = async () => {
     const res = await axios.post(
-      "/api/comment/updateComment",
+      `${process.env.REACT_APP_API_URL}/api/comment/updateComment`,
       { commentId: comment._id, content },
       { withCredentials: true }
     );
@@ -58,7 +62,10 @@ const SingleComment = ({ comment, refreshFunc }: SingleCommentProps) => {
       responseTo: comment._id,
     };
 
-    const res = await axios.post("/api/comment/saveComment", variables);
+    const res = await axios.post(
+      `${process.env.REACT_APP_API_URL}/api/comment/saveComment`,
+      variables
+    );
     if (res.data.success) {
       setContent("");
       setIsOnInput(false);

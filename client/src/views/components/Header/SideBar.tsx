@@ -19,7 +19,7 @@ const SideBar = () => {
   useEffect(() => {
     const getSubsribedUser = async () => {
       const res = await axios.post(
-        "/api/subscribe/getSubscribedUser",
+        `${process.env.REACT_APP_API_URL}/api/subscribe/getSubscribedUser`,
         { userFrom: userId },
         { withCredentials: true }
       );

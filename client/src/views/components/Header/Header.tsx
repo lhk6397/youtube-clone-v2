@@ -35,9 +35,12 @@ const Header = () => {
   }, [location.pathname]);
 
   const logoutHandler = async () => {
-    const response = await axios.get("/api/user/logout", {
-      withCredentials: true,
-    });
+    const response = await axios.get(
+      `${process.env.REACT_APP_API_URL}/api/user/logout`,
+      {
+        withCredentials: true,
+      }
+    );
     if (response.data.success) {
       localStorage.removeItem("userId");
       navigate("/login");

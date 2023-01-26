@@ -17,7 +17,7 @@ const HomeVideoCard = ({ video, videoWidth }: HomeVideoCardProps) => {
     const videoId = video._id;
     const getViews = async () => {
       const res = await axios.post(
-        "/api/view/getViews",
+        `${process.env.REACT_APP_API_URL}/api/view/getViews`,
         { videoId },
         {
           withCredentials: true,

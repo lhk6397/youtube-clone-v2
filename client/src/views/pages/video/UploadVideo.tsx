@@ -46,7 +46,10 @@ const UploadVideo = () => {
       fileName,
     };
 
-    const res = await axios.post("/api/video/uploadVideo", variable);
+    const res = await axios.post(
+      `${process.env.REACT_APP_API_URL}/api/video/uploadVideo`,
+      variable
+    );
     if (res.data.success) {
       alert("Video uploaded Successfully");
       navigate("/");
@@ -69,7 +72,7 @@ const UploadVideo = () => {
       };
       formData.append("file", files);
       const response = await axios.post(
-        "/api/video/uploadfiles",
+        `${process.env.REACT_APP_API_URL}/api/video/uploadfiles`,
         formData,
         config
       );

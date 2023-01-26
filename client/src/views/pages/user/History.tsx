@@ -10,9 +10,12 @@ const History = () => {
 
   useEffect(() => {
     const getWatchedVideos = async () => {
-      const response = await axios.post("/api/video/getWatchedVideos", {
-        userId,
-      });
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/video/getWatchedVideos`,
+        {
+          userId,
+        }
+      );
       if (response.data.success) {
         setVideos(response.data.videos);
         setIsLoading(true);

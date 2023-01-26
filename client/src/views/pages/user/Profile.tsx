@@ -12,7 +12,7 @@ const Profile = () => {
   useEffect(() => {
     const getUserProfile = async () => {
       const res = await axios.post(
-        "/api/user/getUserProfile",
+        `${process.env.REACT_APP_API_URL}/api/user/getUserProfile`,
         { userId },
         { withCredentials: true }
       );
@@ -23,7 +23,10 @@ const Profile = () => {
       }
     };
     const getUserVideos = async () => {
-      const response = await axios.post("/api/video/getUserVideos", { userId });
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/api/video/getUserVideos`,
+        { userId }
+      );
       if (response.data.success) {
         setVideos(response.data.videos);
       } else {
@@ -33,7 +36,7 @@ const Profile = () => {
 
     const getSubscribeNumber = async () => {
       const res = await axios.post(
-        "/api/subscribe/subscribeNumber",
+        `${process.env.REACT_APP_API_URL}/api/subscribe/subscribeNumber`,
         { userTo: userId },
         { withCredentials: true }
       );

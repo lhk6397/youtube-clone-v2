@@ -11,7 +11,7 @@ const LikeVideos = () => {
   useEffect(() => {
     const getLikedVideo = async () => {
       const response = await axios.post(
-        "/api/video/getLikedVideo",
+        `${process.env.REACT_APP_API_URL}/api/video/getLikedVideo`,
         { userId },
         { withCredentials: true }
       );

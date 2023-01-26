@@ -24,7 +24,7 @@ const DetailVideo = () => {
   useEffect(() => {
     const updateViews = async () => {
       const viewRes = await axios.post(
-        "/api/view/updateView",
+        `${process.env.REACT_APP_API_URL}/api/view/updateView`,
         { videoId, userId },
         { withCredentials: true }
       );
@@ -37,7 +37,7 @@ const DetailVideo = () => {
 
     const getVideo = async () => {
       const res = await axios.post(
-        "/api/video/getVideo",
+        `${process.env.REACT_APP_API_URL}/api/video/getVideo`,
         { videoId },
         { withCredentials: true }
       );
@@ -49,9 +49,12 @@ const DetailVideo = () => {
     };
 
     const getRecommendedVideos = async () => {
-      const res = await axios.get("/api/video/getVideos", {
-        withCredentials: true,
-      });
+      const res = await axios.get(
+        `${process.env.REACT_APP_API_URL}/api/video/getVideos`,
+        {
+          withCredentials: true,
+        }
+      );
       if (res.data.success) {
         setRecommended(res.data.videos);
       } else {
@@ -61,7 +64,7 @@ const DetailVideo = () => {
 
     const getComments = async () => {
       const res = await axios.post(
-        "/api/comment/getComments",
+        `${process.env.REACT_APP_API_URL}/api/comment/getComments`,
         { videoId },
         { withCredentials: true }
       );
@@ -102,7 +105,7 @@ const DetailVideo = () => {
 
   const deleteVideo = async () => {
     const res = await axios.post(
-      "/api/video/deleteVideo",
+      `${process.env.REACT_APP_API_URL}/api/video/deleteVideo`,
       { videoId, fileName: video?.fileName },
       { withCredentials: true }
     );

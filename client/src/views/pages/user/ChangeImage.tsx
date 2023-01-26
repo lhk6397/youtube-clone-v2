@@ -50,7 +50,7 @@ const ChangeImage = () => {
       formData.append("file", file);
 
       const response = await axios.post(
-        "/api/user/uploadProfileImage",
+        `${process.env.REACT_APP_API_URL}/api/user/uploadProfileImage`,
         formData,
         config
       );
