@@ -48,52 +48,56 @@ const Comment = ({ commentLists, refreshFunc }: CommentProps) => {
   return (
     <div className="space-y-3">
       {/* Root Comment Form */}
-      <div className="flex items-start my-6">
-        <img
-          className="w-11 aspect-square bg-gray-400 rounded-full"
-          src={user?.userData?.image}
-          alt="avatar"
-        />
-        <form className="flex flex-col w-full" onSubmit={onSubmit}>
-          <div
-            className={cls(
-              "border-b mx-3 transition-all",
-              isOnInput ? "border-white" : "border-[#272727]"
-            )}
-          >
-            <input
-              className="appearance-none bg-transparent border-none w-full text-white p-0 py-1 leading-tight focus:outline-none placeholder:text-gray-300 focus:ring-0"
-              type="text"
-              placeholder="댓글 추가..."
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setComment(e.currentTarget.value)
-              }
-              value={comment}
-              onFocus={() => {
-                setIsOnInput(true);
-                setIsFocus(true);
-              }}
-              onBlur={() => setIsOnInput(false)}
+      <>
+        {user && user.userData.isAuth && (
+          <div className="flex items-start my-6">
+            <img
+              className="w-11 aspect-square bg-gray-400 rounded-full"
+              src={user?.userData?.image}
+              alt="avatar"
             />
-          </div>
-          {isFocus && (
-            <div className="ml-auto mt-3 space-x-5">
-              <button
-                className="text-sm w-16 bg-transparent px-2 py-2 rounded-3xl hover:bg-[#272727]"
-                onClick={() => {
-                  setIsOnInput(false);
-                  setIsFocus(false);
-                }}
+            <form className="flex flex-col w-full" onSubmit={onSubmit}>
+              <div
+                className={cls(
+                  "border-b mx-3 transition-all",
+                  isOnInput ? "border-white" : "border-[#272727]"
+                )}
               >
-                취소
-              </button>
-              <button className="text-sm w-16 bg-[#272727] hover:bg-blue-500 px-2 py-2 rounded-3xl">
-                댓글
-              </button>
-            </div>
-          )}
-        </form>
-      </div>
+                <input
+                  className="appearance-none bg-transparent border-none w-full text-white p-0 py-1 leading-tight focus:outline-none placeholder:text-gray-300 focus:ring-0"
+                  type="text"
+                  placeholder="댓글 추가..."
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    setComment(e.currentTarget.value)
+                  }
+                  value={comment}
+                  onFocus={() => {
+                    setIsOnInput(true);
+                    setIsFocus(true);
+                  }}
+                  onBlur={() => setIsOnInput(false)}
+                />
+              </div>
+              {isFocus && (
+                <div className="ml-auto mt-3 space-x-5">
+                  <button
+                    className="text-sm w-16 bg-transparent px-2 py-2 rounded-3xl hover:bg-[#272727]"
+                    onClick={() => {
+                      setIsOnInput(false);
+                      setIsFocus(false);
+                    }}
+                  >
+                    취소
+                  </button>
+                  <button className="text-sm w-16 bg-[#272727] hover:bg-blue-500 px-2 py-2 rounded-3xl">
+                    댓글
+                  </button>
+                </div>
+              )}
+            </form>
+          </div>
+        )}
+      </>
       {/* Comment Lists */}
       {commentLists &&
         commentLists.map(
