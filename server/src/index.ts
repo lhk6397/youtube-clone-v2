@@ -10,12 +10,10 @@ import viewRouter from "./routes/view.routes";
 import subscribeRouter from "./routes/subscribe.routes";
 import commentRouter from "./routes/comment.routes";
 import likeRouter from "./routes/like.routes";
-const config = require("./config/key");
 const app: Express = express();
 const PORT = process.env.PORT || 5000;
 
 require("dotenv").config({ path: __dirname + "/../.env" });
-app.use(express.static("build"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(mongoSanitize());
@@ -27,7 +25,7 @@ app.use(
 );
 
 const store = new MongoStore({
-  mongoUrl: config.mongoURI as string,
+  mongoUrl: process.env.mongoURI as string,
   touchAfter: 24 * 60 * 60,
 });
 
@@ -53,7 +51,7 @@ app.use("/api/comment", commentRouter);
 app.use("/api/like", likeRouter);
 
 app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/build/index.html");
+  res.send("hello");
 });
 
 app.listen(PORT, async () => {
