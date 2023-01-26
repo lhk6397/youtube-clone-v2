@@ -52,10 +52,6 @@ app.use("/api/subscribe", subscribeRouter);
 app.use("/api/comment", commentRouter);
 app.use("/api/like", likeRouter);
 
-// app.get("/", (req: Request, res: Response) => {
-//   res.sendFile(__dirname + "/build/index.html");
-// });
-
 app.listen(PORT, async () => {
   console.log(`Listening on port ${PORT}!`);
   await connect();
