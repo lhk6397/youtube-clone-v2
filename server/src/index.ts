@@ -15,7 +15,7 @@ const app: Express = express();
 const PORT = process.env.PORT || 5000;
 
 require("dotenv").config();
-app.use(express.static(__dirname + "/dist"));
+app.use(express.static("build"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(mongoSanitize());
@@ -51,6 +51,10 @@ app.use("/api/view", viewRouter);
 app.use("/api/subscribe", subscribeRouter);
 app.use("/api/comment", commentRouter);
 app.use("/api/like", likeRouter);
+
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/build/index.html");
+});
 
 app.listen(PORT, async () => {
   console.log(`Listening on port ${PORT}!`);
