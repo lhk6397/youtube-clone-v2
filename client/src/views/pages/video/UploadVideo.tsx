@@ -48,7 +48,8 @@ const UploadVideo = () => {
 
     const res = await axios.post(
       `${process.env.REACT_APP_API_URL}/api/video/uploadVideo`,
-      variable
+      variable,
+      { withCredentials: true }
     );
     if (res.data.success) {
       alert("Video uploaded Successfully");

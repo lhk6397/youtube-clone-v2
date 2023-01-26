@@ -18,7 +18,8 @@ const SearchedVideos = () => {
         `${process.env.REACT_APP_API_URL}/api/video/getSearchedVideos`,
         {
           search,
-        }
+        },
+        { withCredentials: true }
       );
       if (response.data.success) {
         setVideos(response.data.searchedVideos);

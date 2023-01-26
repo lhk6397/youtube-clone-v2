@@ -25,7 +25,8 @@ const Profile = () => {
     const getUserVideos = async () => {
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/api/video/getUserVideos`,
-        { userId }
+        { userId },
+        { withCredentials: true }
       );
       if (response.data.success) {
         setVideos(response.data.videos);

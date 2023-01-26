@@ -8,9 +8,13 @@ const Subscription = () => {
   const userId = localStorage.getItem("userId");
   useEffect(() => {
     const getVideos = async () => {
-      const response = await axios.post("/api/video/getSubscriptionVideos", {
-        userFrom: userId,
-      });
+      const response = await axios.post(
+        "/api/video/getSubscriptionVideos",
+        {
+          userFrom: userId,
+        },
+        { withCredentials: true }
+      );
       if (response.data.success) {
         setVideos(response.data.videos);
       } else {

@@ -20,7 +20,8 @@ const CategorizedVideos = () => {
         `${process.env.REACT_APP_API_URL}/api/video/getCategorizedVideos`,
         {
           category: categoryItem?.label,
-        }
+        },
+        { withCredentials: true }
       );
       if (response.data.success) {
         setVideos(response.data.categorizedVideos);

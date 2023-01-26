@@ -64,7 +64,8 @@ const SingleComment = ({ comment, refreshFunc }: SingleCommentProps) => {
 
     const res = await axios.post(
       `${process.env.REACT_APP_API_URL}/api/comment/saveComment`,
-      variables
+      variables,
+      { withCredentials: true }
     );
     if (res.data.success) {
       setContent("");

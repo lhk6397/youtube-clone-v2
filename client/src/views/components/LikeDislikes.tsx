@@ -100,7 +100,10 @@ const LikeDislikes = ({
     if (likeAction === "") {
       const res = await axios.post(
         `${process.env.REACT_APP_API_URL}/api/like/upLike`,
-        variable
+        variable,
+        {
+          withCredentials: true,
+        }
       );
       if (res.data.success) {
         setLikes((curr) => curr + 1);
@@ -117,7 +120,10 @@ const LikeDislikes = ({
     } else {
       const res = await axios.post(
         `${process.env.REACT_APP_API_URL}/api/like/unLike`,
-        variable
+        variable,
+        {
+          withCredentials: true,
+        }
       );
       if (res.data.success) {
         setLikes((curr) => curr - 1);
@@ -132,7 +138,10 @@ const LikeDislikes = ({
     if (dislikeAction === "") {
       const res = await axios.post(
         `${process.env.REACT_APP_API_URL}/api/like/upDisLike`,
-        variable
+        variable,
+        {
+          withCredentials: true,
+        }
       );
       if (res.data.success) {
         setDislikes((curr) => curr + 1);
@@ -149,7 +158,10 @@ const LikeDislikes = ({
     } else {
       const res = await axios.post(
         `${process.env.REACT_APP_API_URL}/api/like/unDisLike`,
-        variable
+        variable,
+        {
+          withCredentials: true,
+        }
       );
       if (res.data.success) {
         setDislikes((curr) => curr - 1);
