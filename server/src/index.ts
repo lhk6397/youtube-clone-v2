@@ -14,7 +14,7 @@ const config = require("./config/key");
 const app: Express = express();
 const PORT = process.env.PORT || 5000;
 
-require("dotenv").config();
+require("dotenv").config({ path: __dirname + "/../.env" });
 app.use(express.static("build"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
